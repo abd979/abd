@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous </title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to  Webpage</h1>
+    </header>
+
+    <nav>
+        <a href="#calculator" onclick="showSection('calculator')">Aggregate Calculator</a>
+        <a href="#books" onclick="showSection('books')">Books</a>
+        <a href="#game" onclick="showSection('game')">Game</a>
+        <a href="#app" onclick="showSection('app')">App</a>
+    </nav>
+
+    <!-- Aggregate Calculator Section -->
+    <section id="calculator" class="active">
+        <h2>Aggregate Calculator</h2>
+        <label for="marks1">Enter First Year Marks</label>
+        <input type="number" id="marks1" placeholder="First Year Marks">
+        
+        <label for="marks2">Enter Metric Marks</label>
+        <input type="number" id="marks2" placeholder="Metric Marks">
+        
+        <label for="examType">Exam Type</label>
+        <select id="examType">
+            <option value="ecat">ECAT</option>
+            <option value="net">NET</option>
+        </select>
+
+        <label for="testMarks">Enter Test Marks</label>
+        <input type="number" id="testMarks" placeholder="Test Marks">
+
+        <button onclick="calculateAggregate()">Calculate</button>
+        <h3 id="aggregateResult"></h3>
+    </section>
+
+    <section id="books">
+        <h2>Books</h2>
+        
+        <!-- Physics Section -->
+        <h2 onclick="toggleList('physicsList')">Physics</h2>
+        <ul id="physicsList">
+            <li><a href="physics.pdf" target="_blank">Physics</a></li>
+   
+    <li><a href="Worksheet-01.pdf" target="_blank">Worksheet-01</a></li>
+    <li><a href="Worksheet-02.pdf" target="_blank">Worksheet-02</a></li>
+    <li><a href="Worksheet-03.pdf" target="_blank">Worksheet-03</a></li>
+    <li><a href="Worksheet-04.pdf" target="_blank">Worksheet-04</a></li>
+    <li><a href="Worksheet-05.pdf" target="_blank">Worksheet-05</a></li>
+    <li><a href="Worksheet-06.pdf" target="_blank">Worksheet-06</a></li>
+    <li><a href="Worksheet-07.pdf" target="_blank">Worksheet-07</a></li>
+    <li><a href="Worksheet-08.pdf" target="_blank">Worksheet-08</a></li>
+    <li><a href="Worksheet-09.pdf" target="_blank">Worksheet-09</a></li>
+    <li><a href="Worksheet-10.pdf" target="_blank">Worksheet-10</a></li>
+    <li><a href="Worksheet-11.pdf" target="_blank">Worksheet-11</a></li>
+    <li><a href="Worksheet-12.pdf" target="_blank">Worksheet-12</a></li>
+        </ul>
+
+        <!-- Chemistry Section -->
+        <h2 onclick="toggleList('chemistryList')">Chemistry</h2>
+        <ul id="chemistryList">
+            <li><a href="chemistry.pdf" target="_blank">Chemistry </a></li>
+   
+    <li><a href="Worksheet-01c.pdf" target="_blank">Worksheet-01 </a></li>
+    <li><a href="Worksheet-02c.pdf" target="_blank">Worksheet-02 </a></li>
+    <li><a href="Worksheet-03c.pdf" target="_blank">Worksheet-03 </a></li>
+    <li><a href="Worksheet-04c.pdf" target="_blank">Worksheet-04 </a></li>
+    <li><a href="Worksheet-05c.pdf" target="_blank">Worksheet-05 </a></li>
+    <li><a href="Worksheet-06c.pdf" target="_blank">Worksheet-06 </a></li>
+    <li><a href="Worksheet-07c.pdf" target="_blank">Worksheet-07 </a></li>
+    <li><a href="Worksheet-08c.pdf" target="_blank">Worksheet-08 </a></li>
+    <li><a href="Worksheet-09c.pdf" target="_blank">Worksheet-09 </a></li>
+     <li><a href="Worksheet-10c.pdf" target="_blank">Worksheet-10 </a></li>
+     <li><a href="Worksheet-11c.pdf" target="_blank">Worksheet-11</a></li>
+     <li><a href="Worksheet-12c.pdf" target="_blank">Worksheet-12 </a></li>
+     <li><a href="Worksheet-13c.pdf" target="_blank">Worksheet-13 </a></li>
+     <li><a href="Worksheet-14c.pdf" target="_blank">Worksheet-14 </a></li>
+     
+        </ul>
+
+        <!-- English Section -->
+        <h2 onclick="toggleList('mathList')">English</h2>
+        <ul id="mathList">
+            <li><a href="english.pdf" target="_blank">English</a></li>
+            <li><a href="Worksheet-01E.pdf" target="_blank">Worksheet-01</a></li>
+            <li><a href="Worksheet-02E.pdf" target="_blank">Worksheet-02</a></li>
+            <li><a href="Worksheet-03E.pdf" target="_blank">Worksheet-03</a></li>
+            <li><a href="Worksheet-04E.pdf" target="_blank">Worksheet-04</a></li>
+            <li><a href="Worksheet-05E.pdf" target="_blank">Worksheet-05</a></li>
+            <li><a href="Worksheet-06E.pdf" target="_blank">Worksheet-06</a></li>
+            <li><a href="Worksheet-07E.pdf" target="_blank">Worksheet-07</a></li>
+            <li><a href="Worksheet-08E.pdf" target="_blank">Worksheet-08</a></li>
+            <li><a href="Worksheet-09E.pdf" target="_blank">Worksheet-09</a></li>
+            <li><a href="Worksheet-10E.pdf" target="_blank">Worksheet-10</a></li>
+            <li><a href="Worksheet-11E.pdf" target="_blank">Worksheet-11</a></li>
+            <li><a href="Worksheet-12E.pdf" target="_blank">Worksheet-12</a></li>
+            <li><a href="Worksheet-13E.pdf" target="_blank">Worksheet-13</a></li>
+            <li><a href="Worksheet-14E.pdf" target="_blank">Worksheet-14</a></li>
+           
+    </section>
+
+    <!-- Game Section -->
+    <section id="game">
+        <h2>Rock Paper Scissors Game</h2>
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
+        <h3 id="gameResult"></h3>
+        <p>Score: <span id="playerScore">0</span> - <span id="computerScore">0</span></p>
+    </section>
+
+    <!-- App Section -->
+    <section id="app">
+        
+        <a href="app.apk" download>
+            <button>Download App</button>
+        </a>
+    </section>
+
+    <footer>
+        Created by Anonymous User
+    </footer>
+
+    <script>
+        // Navigation logic
+        function showSection(id) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === id) {
+                    section.classList.add('active');
+                }
+            });
+        }
+ function toggleList(listId) {
+            const list = document.getElementById(listId);
+            list.style.display = (list.style.display === 'none' || list.style.display === '') ? 'block' : 'none';
+        }
+
+        // Aggregate Calculator Logic
+        function calculateAggregate() {
+            const marks1 = parseFloat(document.getElementById('marks1').value) || 0;
+            const marks2 = parseFloat(document.getElementById('marks2').value) || 0;
+            const examType = document.getElementById('examType').value;
+            const testMarks = parseFloat(document.getElementById('testMarks').value) || 0;
+
+            let aggregate = 0;
+            if (examType === 'ecat') {
+                aggregate = (marks1 * 50 / 570) + (marks2 * 17 / 1100) + (testMarks * 33 / 400);
+            } else {
+                aggregate = (marks1 * 15 / 570) + (marks2 * 10 / 1100) + (testMarks * 75 / 200);
+            }
+
+            document.getElementById('aggregateResult').innerText = `Aggregate: ${aggregate.toFixed(2)}`;
+        }
+
+        // Rock Paper Scissors Logic
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function playGame(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            let result;
+
+            if (playerChoice === computerChoice) {
+                result = "It's a tie!";
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = `You win! ${playerChoice} beats ${computerChoice}`;
+                playerScore++;
+            } else {
+                result = `You lose! ${computerChoice} beats ${playerChoice}`;
+                computerScore++;
+            }
+
+            document.getElementById('gameResult').innerText = result;
+            document.getElementById('playerScore').innerText = playerScore;
+            document.getElementById('computerScore').innerText = computerScore;
+        }
+    </script>
+</body>
+</html>
