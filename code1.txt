@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <title>Login Page</title>
+              <style>
+        .abc{
+                background-color: azure;
+width: 250px;
+height: 300px;
+
+}
+.abd{
+        margin-left: 450px;
+        margin-top: 50px;
+       
+}
+body{
+        background-color: aliceblue;
+}
+                .login{
+                        border: none;
+                        padding: none;
+                        font-size: 20px;
+                        background:transparent;
+                        margin-left: 15px;
+                }
+        .register
+        {  margin-left: 15px;
+               background: transparent;
+               border: none;
+               padding: none;
+               font-size: 20px;
+        }
+        label{
+                font-size: 20px;
+                font-weight: bold;
+                display: block;
+                margin: 20px;
+                margin-top: 10px;
+                margin-left: 10px;
+        }
+        input{
+                display: block;
+                margin-left: 10px;
+        }
+        button{
+                margin-top: 10px;
+                margin-left: 10px;
+                font-size: 30px;
+                background: transparent;
+                border: none;
+                margin-left: 40px;
+        }
+                nav{
+                        display:block 
+                }
+                section{
+                        display: none;
+                }
+                section.active{
+                        display: block;
+                }
+              </style>
+        </head>
+ <body>
+        <div class="abd">
+                <div class="abc">
+        <nav>
+   <button class="login" onclick="showSection('login')">Login</button>
+   <button class="register" onclick="showSection('register')">Register</button>
+        </nav>
+<section class="active" id="login">
+        <label>Enter your E-mail</label>
+        <input type="email" required>
+        <label>Enter your password</label>
+        <input type="password" required>
+        <button onclick="show()">Submit</button>
+</section>
+<section  id="register">
+        <label>Enter your name</label>
+        <input type="text" required>
+        <label>Enter your E-mail</label>
+        <input type="email" required>
+        <label>Enter your password</label>
+        <input type="password" required>
+        <button onclick="show()">Submit</button>
+</section>
+</div>
+</div>
+<script>
+        function showSection(id) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === id) {
+                    section.classList.add('active');
+                }
+            });
+        }
+      function show(){
+        alert("E-mail has been submitted");
+      }
+</script>
+ </body>       
+</html>
