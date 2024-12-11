@@ -108,12 +108,17 @@
 
     <!-- Game Section -->
     <section id="game">
-        <h2>Rock Paper Scissors Game</h2>
-        <button onclick="playGame('rock')">Rock</button>
-        <button onclick="playGame('paper')">Paper</button>
-        <button onclick="playGame('scissors')">Scissors</button>
-        <h3 id="gameResult"></h3>
-        <p>Score: <span id="playerScore">0</span> - <span id="computerScore">0</span></p>
+         <div>
+        <div class="scorecard">
+            <div class="score" id="human-score">You: 0</div>
+            <div class="score" id="ai-score">AI: 0</div>
+        </div>
+        <div class="board" id="board"></div>
+        <div class="message" id="message"></div>
+        <div class="controls">
+            <button class="button" id="restart">Restart</button>
+        </div>
+    </div>
     </section>
 
     <!-- App Section -->
@@ -188,6 +193,135 @@
             document.getElementById('playerScore').innerText = playerScore;
             document.getElementById('computerScore').innerText = computerScore;
         }
+                const board = document.getElementById("board");
+        const message = document.getElementById("message");
+        const restartButton = document.getElementById("restart");
+        const humanScoreEl = document.getElementById("human-score");
+        const aiScoreEl = document.getElementById("ai-score");
+
+        let gameBoard = Array(9).fill(null);
+        const human = "X";
+        const ai = "O";
+
+        let humanScore = 0;
+        let aiScore = 0;
+
+        const winningCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
+        function checkWinner(board, player) {
+            return winningCombinations.some(combination =>
+                combination.every(index => board[index] === player)
+            );
+        }
+
+        function isDraw(board) {
+            return board.every(cell => cell !== null);
+        }
+
+        function minimax(newBoard, depth, isMaximizing) {
+            if (checkWinner(newBoard, ai)) return { score: 10 - depth };
+            if (checkWinner(newBoard, human)) return { score: depth - 10 };
+            if (isDraw(newBoard)) return { score: 0 };
+
+            const availableMoves = newBoard.map((cell, index) => cell === null ? index : null).filter(index => index !== null);
+
+            if (isMaximizing) {
+                let bestMove = { score: -Infinity };
+                for (let move of availableMoves) {
+                    newBoard[move] = ai;
+                    let result = minimax(newBoard, depth + 1, false);
+                    newBoard[move] = null;
+                    if (result.score > bestMove.score) {
+                        bestMove = { score: result.score, index: move };
+                    }
+                }
+                return bestMove;
+            } else {
+                let bestMove = { score: Infinity };
+                for (let move of availableMoves) {
+                    newBoard[move] = human;
+                    let result = minimax(newBoard, depth + 1, true);
+                    newBoard[move] = null;
+                    if (result.score < bestMove.score) {
+                        bestMove = { score: result.score, index: move };
+                    }
+                }
+                return bestMove;
+            }
+        }
+
+        function aiMove() {
+            const bestMove = minimax(gameBoard, 0, true);
+            gameBoard[bestMove.index] = ai;
+            renderBoard();
+            if (checkWinner(gameBoard, ai)) {
+                message.textContent = "AI wins!";
+                aiScore++;
+                updateScore();
+                board.classList.add("disabled");
+            } else if (isDraw(gameBoard)) {
+                message.textContent = "It's a draw!";
+            }
+        }
+
+        function handleCellClick(e) {
+            const cellIndex = e.target.dataset.index;
+            if (!gameBoard[cellIndex]) {
+                gameBoard[cellIndex] = human;
+                renderBoard();
+                if (checkWinner(gameBoard, human)) {
+                    message.textContent = "You win!";
+                    humanScore++;
+                    updateScore();
+                    board.classList.add("disabled");
+                } else if (isDraw(gameBoard)) {
+                    message.textContent = "It's a draw!";
+                } else {
+                    aiMove();
+                }
+            }
+        }
+
+        function renderBoard() {
+            board.innerHTML = "";
+            gameBoard.forEach((cell, index) => {
+                const cellDiv = document.createElement("div");
+                cellDiv.classList.add("cell");
+                if (cell) cellDiv.classList.add("taken");
+                cellDiv.textContent = cell;
+                cellDiv.dataset.index = index;
+                board.appendChild(cellDiv);
+            });
+
+            document.querySelectorAll(".cell").forEach(cell => {
+                cell.addEventListener("click", handleCellClick);
+            });
+        }
+
+        function updateScore() {
+            humanScoreEl.textContent = `You: ${humanScore}`;
+            aiScoreEl.textContent = `AI: ${aiScore}`;
+        }
+
+        function resetGame() {
+            gameBoard = Array(9).fill(null);
+            message.textContent = "";
+            board.classList.remove("disabled");
+            renderBoard();
+        }
+
+        restartButton.addEventListener("click", resetGame);
+
+        renderBoard();
     </script>
 </body>
 </html>
