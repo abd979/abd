@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Music Player</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .player {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            display: inline-block;
+            margin-top: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .player button {
+            background: #00d2ff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .player button:hover {
+            background: #0075be;
+        }
+        .progress {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+            height: 10px;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #00d2ff;
+            width: 0;
+        }
+        .song-list {
+            margin-top: 40px;
+            background: #181818;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .song-item {
+            background: #333;
+            color: #b3b3b3;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .song-item:hover {
+            background: #1db954;
+            color: white;
+        }
+        .song-item:active {
+            background: #1a8f46;
+        }
+    </style>
+</head>
+<body>
+    <h1>Local Music Player</h1>
+    <div class="player">
+        <audio id="audioPlayer" controls></audio>
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <p id="currentTrack">Select a song to play</p>
+    </div>
+    <div class="song-list">
+        <h2>Song List</h2>
+   
+        <div class="song-item" onclick="playSong('Abhi Mujh Mein Kahin.mp3')">Abhi Mujh Mein Kahin</div>
+        <div class="song-item" onclick="playSong('Agar Tum Saath Ho .mp3')">Agar Tum Saath Ho </div>
+        <div class="song-item" onclick="playSong('Baarishein .mp3')">Baarishein </div>
+        <div class="song-item" onclick="playSong('Banjaara.mp3')">Banjaara</div>
+        <div class="song-item" onclick="playSong('Bas Tera Sath ho.mp3')">Bas Tera Sath ho</div>
+        <div class="song-item" onclick="playSong('Chahun Main Ya Naa.mp3')">Chahun Main Ya Naa</div>
+        <div class="song-item" onclick="playSong('Chal Diye Tum Kahan .mp3')">Chal Diye Tum Kahan </div>
+        <div class="song-item" onclick="playSong('Dil Diyan Gallan .mp3')">Dil Diyan Gallan </div>
+        <div class="song-item" onclick="playSong('Hamari adhuri kahani .mp3')">Hamari adhuri kahani </div>
+        <div class="song-item" onclick="playSong('Heeriye Heeriye Aa.mp3')">Heeriye Heeriye Aa</div>
+        <div class="song-item" onclick="playSong('humdard.mp3')">Humdard</div>
+        <div class="song-item" onclick="playSong('Humnava Mere.mp3')">Humnava Mere</div>
+        <div class="song-item" onclick="playSong('Jaan Nisaar .mp3')">Jaan Nisaar </div>
+        <div class="song-item" onclick="playSong('Jeena Jeena.mp3')">Jeena Jeena</div>
+        <div class="song-item" onclick="playSong('Jo Tum Mere Ho.mp3')">Jo Tum Mere Ho</div>  
+        <div class="song-item" onclick="playSong('Khushi-Ke-Pal-Kahan-Dhundu.mp3')">Khushi-Ke-Pal-Kahan-Dhundu</div>
+        <div class="song-item" onclick="playSong('Lo Maan Liya.mp3')">Lo Maan Liya</div>
+        <div class="song-item" onclick="playSong('Mehfil Mein Teri Hum Na Rahe Jo.mp3')">Mehfil Mein Teri Hum Na Rahe Jo</div>
+        <div class="song-item" onclick="playSong('phir bhi tum .mp3')">phir bhi tum </div>
+        <div class="song-item" onclick="playSong('Ranjha .mp3')">Ranjha </div>
+        <div class="song-item" onclick="playSong('Sunn Raha Hai.mp3')">Sunn Raha Hai</div>
+        <div class="song-item" onclick="playSong('Tarasti Hain Nigahain -.mp3')">Tarasti Hain Nigahain -</div>
+        <div class="song-item" onclick="playSong('Tera Ban Jaunga .mp3')">Tera Ban Jaunga </div>
+         <div class="song-item" onclick="playSong('Tera Hua .mp3')">Tera Hua </div>
+         <div class="song-item" onclick="playSong('Tu-Jaane-Na.mp3')">Tu Jaane Na</div>
+         <div class="song-item" onclick="playSong('Tujhe Kitna Chahne Lage .mp3')">Tujhe Kitna Chahne Lage </div>
+         <div class="song-item" onclick="playSong('Tum Hi Aana .mp3')">Tum Hi Aana </div>
+         <div class="song-item" onclick="playSong('mashup.m4a')">Mashup</div>
+
+      </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const progressBar = document.getElementById('progressBar');
+        const currentTrack = document.getElementById('currentTrack');
+
+        function playSong(filename) {
+            audioPlayer.src = filename;
+            audioPlayer.play();
+            currentTrack.textContent = `Now Playing: ${filename}`;
+        }
+
+        function updateProgressBar() {
+            if (audioPlayer.duration) {
+                const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = percentage + '%';
+            }
+        }
+
+        audioPlayer.addEventListener('timeupdate', updateProgressBar);
+    </script>
+</body>
+</html>
