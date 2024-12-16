@@ -1,3 +1,20 @@
+.footer {
+    margin-top: 20px; /* Adjust spacing above footer */
+    text-align: center; /* Center-aligns the content */
+    background-color: #f8f9fa; /* Light background color (optional) */
+    padding: 20px 0; /* Space inside the footer */
+    border-top: 1px solid #ddd; /* Adds a subtle top border */
+}
+
+.instagram-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s;
+}
+
+.instagram-icon:hover {
+    transform: scale(1.2); /* Zoom-in effect on hover */
+}
 
 /* General body styling */
 
