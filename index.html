@@ -4,7 +4,247 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anonymous </title>
-  <link rel="stylesheet" href="index.css">
+  <style>
+.footer {
+    margin-top: 20px; /* Adjust spacing above footer */
+    text-align: center; /* Center-aligns the content */
+    background-color: #f8f9fa; /* Light background color (optional) */
+    padding: 20px 0; /* Space inside the footer */
+    border-top: 1px solid #ddd; /* Adds a subtle top border */
+}
+
+.instagram-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s;
+}
+
+.instagram-icon:hover {
+    transform: scale(1.2); /* Zoom-in effect on hover */
+}
+
+/* General body styling */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    margin: 20px 0;
+}
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid #000;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+}
+.cell.taken {
+    pointer-events: none;
+    cursor: default;
+}
+.message {
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 10px;
+}
+.controls {
+    margin-top: 20px;
+}
+.button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.button:hover {
+    background-color: #0056b3;
+}
+.scorecard {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+}
+.score {
+    text-align: center;
+    font-size: 1.2em;
+    padding: 10px;
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    width: 100px;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+    color: #333;
+}
+
+/* Header styling */
+header {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+/* Navigation menu */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #2c3e50;
+    padding: 10px 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #1abc9c;
+}
+
+/* Section styling */
+section {
+    display: none;
+    padding: 20px;
+}
+
+section.active {
+    display: block;
+}
+
+/* Footer styling */
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Button styling */
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Styling for Aggregate Calculator */
+input, select {
+    display: block;
+    margin: 15px auto;
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 400px;
+}
+ul{
+    display:none;
+}
+form {
+    
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    /* Input and Textarea Styles */
+    input, textarea, button {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #007BFF;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    /* Button Styles */
+    button {
+      background: #007BFF;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+
+    /* Success Message Styling */
+    #result {
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+      display: none;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .cont{
+        display: flex;
+        justify-content: center;
+    }
+</style>
 </head>
 <body>
 
@@ -16,7 +256,8 @@
         <a href="#calculator" onclick="showSection('calculator')">Aggregate Calculator</a>
         <a href="#books" onclick="showSection('books')">Books</a>
         <a href="#game" onclick="showSection('game')">Game</a>
-        <a href="#app" onclick="showSection('app')">App</a>
+      
+        <a href="#contact" onclick="showSection('contact')">contact</a>
     </nav>
 
     <!-- Aggregate Calculator Section -->
@@ -122,11 +363,27 @@
     </section>
 
     <!-- App Section -->
-    <section id="app">
+
+    <section id="contact">
+        <div class="cont">
+        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+            <!-- Access Key -->
+            <input type="hidden" name="access_key" value="ed56c54d-eb19-49ae-b051-fbe97b2d8a7f">
         
-        <a href="app.apk" download>
-            <button>Download App</button>
-        </a>
+            <!-- Form Inputs -->
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+        
+            <!-- Honeypot Spam Protection -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+        
+            <!-- Submit Button -->
+            <button type="submit">Submit Form</button>
+        
+            <!-- Result Message -->
+            <div id="result"></div>
+        </div>
     </section>
 <div class="footer">
     <a href="https://www.instagram.com/imabd73" target="_blank" title="Follow me on Instagram">
@@ -302,7 +559,44 @@
 
         renderBoard();
 
-    
+        const form = document.getElementById('contact-form');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+      result.style.display = "block";
+      result.innerHTML = "Please wait...";
+
+      fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: json,
+        })
+        .then(async (response) => {
+          let json = await response.json();
+          if (response.status == 200) {
+            result.innerHTML = "Form submitted successfully!";
+          } else {
+            result.innerHTML = json.message;
+          }
+        })
+        .catch((error) => {
+          result.innerHTML = "Something went wrong!";
+          console.error(error);
+        })
+        .then(() => {
+          form.reset();
+          setTimeout(() => {
+            result.style.display = "none";
+          }, 3000);
+        });
+    });
     </script>
 </body>
 </html>
