@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABD</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+    .page-container {
+      flex: 1; 
+      padding: 10px;
+    }
+    header {
+      background-color: #ff6f00;
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      background: white;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    }
+    .product-card img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .cart-button {
+      background-color: #ff6f00;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    .cart-button:hover {
+      background-color: #e65c00;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      min-width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .cart-modal ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cart-modal li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+    .close-btn, .whatsapp-btn {
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+    }
+    .whatsapp-btn:hover {
+      background: #1ebe57;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .cart-button {
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <header>
+      <h1>ABD</h1>
+      <button class="cart-button" onclick="openCart()">View Cart 🛒</button>
+    </header>
+
+    <section class="products">
+      <div class="product-card">
+        <img src="images.jpeg" alt="Ultra 9 Smartwatch">
+        <h3>Ultra 9 Smartwatch</h3>
+        <p>PKR 1000</p>
+        <button class="cart-button" onclick="addToCart('Ultra 9 Smartwatch', 1000)">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="download.jpeg" alt="Ultra 10 Smartwatch">
+        <h3>Ultra 10 Smartwatch</h3>
+        <p>PKR 1500</p>
+        <button class="cart-button" onclick="addToCart('Ultra 10 Smartwatch', 1500)">Add to Cart</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="cartModal" class="cart-modal">
+    <h2>Shopping Cart</h2>
+    <ul id="cartItems"></ul>
+    <p><strong>Total:</strong> PKR <span id="totalPrice">0</span></p>
+    <button class="close-btn" onclick="closeCart()">Close</button>
+    <button class="whatsapp-btn" onclick="checkoutWhatsApp()">Checkout on WhatsApp 📲</button>
+  </div>
+
+  <script>
+    let cart = {};
+    let whatsappNumber = "923350806140";
+
+    function addToCart(productName, price) {
+      if (cart[productName]) {
+        cart[productName].quantity += 1;
+      } else {
+        cart[productName] = { price: price, quantity: 1 };
+      }
+      openCart();
+    }
+
+    function openCart() {
+      let cartModal = document.getElementById("cartModal");
+      let cartItemsList = document.getElementById("cartItems");
+      let totalPriceElem = document.getElementById("totalPrice");
+      cartItemsList.innerHTML = "";
+      let totalPrice = 0;
+      for (let item in cart) {
+        let li = document.createElement("li");
+        li.innerHTML = `${item} - PKR ${cart[item].price} x ${cart[item].quantity}`;
+        cartItemsList.appendChild(li);
+        totalPrice += cart[item].price * cart[item].quantity;
+      }
+      totalPriceElem.innerText = totalPrice;
+      cartModal.style.display = "block";
+    }
+
+    function closeCart() {
+      document.getElementById("cartModal").style.display = "none";
+    }
+
+    function checkoutWhatsApp() {
+      let message = "Hello! I want to order:\n";
+      for (let item in cart) {
+        message += `${cart[item].quantity}x ${item} - PKR ${cart[item].price * cart[item].quantity}\n`;
+      }
+      let url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
