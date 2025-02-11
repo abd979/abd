@@ -6,44 +6,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday!</title>
   <style>
+    /* General body styling */
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: black;
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
       overflow: hidden;
       height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
     }
 
+    /* Heading styling */
     h1 {
       color: #ffcc00;
-      text-align: center;
       font-size: 4em;
-      margin-top: 20px;
+      margin: 20px 0;
       animation: fadeIn 2s ease-out;
+      text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00;
     }
 
+    /* Birthday image styling */
     .birthday-image {
       width: 200px;
       height: 200px;
-      margin: 50px;
       border-radius: 50%;
       border: 5px solid #ffcc00;
       object-fit: cover;
-      animation: zoomIn 3s ease-out;
+      animation: zoomIn 3s ease-out, float 4s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
     }
 
+    /* Wish text styling */
     #wish {
       font-size: 2em;
       color: #00ff99;
       margin-top: 20px;
       animation: fadeIn 2s ease-out;
+      text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
     }
 
+    /* Canvas for fireworks */
     canvas {
       position: fixed;
       top: 0;
@@ -52,11 +59,11 @@
       z-index: -1;
     }
 
+    /* Animations */
     @keyframes fadeIn {
       0% {
         opacity: 0;
       }
-
       100% {
         opacity: 1;
       }
@@ -67,13 +74,22 @@
         transform: scale(0.1);
         opacity: 0;
       }
-
       100% {
         transform: scale(1);
         opacity: 1;
       }
     }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -83,7 +99,7 @@
   <canvas id="fireworksCanvas"></canvas>
 
   <script>
-
+    // Array of birthday wishes
     const wishes = [
       "Wishing you all the happiness in the world! 🎉",
       "May your day be filled with joy and love! 💖",
@@ -95,17 +111,15 @@
 
     let currentWishIndex = 0;
 
+    // Function to change the wish every second
     function changeWish() {
       document.getElementById('wish').textContent = wishes[currentWishIndex];
-      currentWishIndex++;
-      if (currentWishIndex >= wishes.length) {
-        currentWishIndex = 0;
-      }
+      currentWishIndex = (currentWishIndex + 1) % wishes.length;
     }
 
-    setInterval(changeWish, 1000);
+    setInterval(changeWish, 2000);
 
-
+    // Fireworks animation
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -113,10 +127,12 @@
 
     const fireworks = [];
 
+    // Helper function to generate random numbers
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
+    // Particle class for fireworks
     class Particle {
       constructor(x, y, color, velocity, size) {
         this.x = x;
@@ -144,8 +160,9 @@
       }
     }
 
+    // Firework class
     class Firework {
-      constructor(x, y, colors, particleCount = 50) {
+      constructor(x, y, colors, particleCount = 100) {
         this.x = x;
         this.y = y;
         this.colors = colors;
@@ -182,6 +199,7 @@
       }
     }
 
+    // Animation loop
     function animate() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -195,6 +213,7 @@
       requestAnimationFrame(animate);
     }
 
+    // Create fireworks at random intervals
     setInterval(() => {
       const x = random(100, canvas.width - 100);
       const y = random(100, canvas.height / 2);
@@ -202,11 +221,13 @@
       fireworks.push(new Firework(x, y, colors));
     }, 500);
 
+    // Handle window resize
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     });
 
+    // Start animation
     animate();
   </script>
 </body>
