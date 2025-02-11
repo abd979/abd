@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #videoContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Key to Access Videos</h2>
+    <input type="password" id="keyInput" placeholder="Enter key">
+    <button onclick="checkKey()">Submit</button>
+    
+    <div id="videoContainer">
+        <h3>Videos:</h3>
+        <video width="320" height="240" controls>
+            <source src="m1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video width="320" height="240" controls>
+            <source src="m2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video width="320" height="240" controls>
+            <source src="m3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        function checkKey() {
+            const key = document.getElementById("keyInput").value;
+            const correctKey = "1234"; // Change this to your desired key
+            
+            if (key === correctKey) {
+                document.getElementById("videoContainer").style.display = "block";
+            } else {
+                alert("Incorrect key! Try again.");
+            }
+        }
+    </script>
+</body>
+</html>
