@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: black;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      color: #ffcc00;
+      text-align: center;
+      font-size: 4em;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-out;
+    }
+
+    .birthday-image {
+      width: 200px;
+      height: 200px;
+      margin: 50px;
+      border-radius: 50%;
+      border: 5px solid #ffcc00;
+      object-fit: cover;
+      animation: zoomIn 3s ease-out;
+    }
+
+    #wish {
+      font-size: 2em;
+      color: #00ff99;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-out;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: block;
+      z-index: -1;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.1);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Happy Birthday!</h1>
+  <img src="abd.jpg" alt="Birthday Person" class="birthday-image">
+  <p id="wish">Wishing you all the happiness in the world! 🎉</p>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <script>
+
+    const wishes = [
+      "Wishing you all the happiness in the world! 🎉",
+      "May your day be filled with joy and love! 💖",
+      "Here's to a day as special as you are! 🎂",
+      "May this year bring you endless blessings and smiles! 😊",
+      "Happy Birthday to someone who makes the world a better place! 🌍",
+      "Wishing you a year filled with health, happiness, and success! 🌟"
+    ];
+
+    let currentWishIndex = 0;
+
+    function changeWish() {
+      document.getElementById('wish').textContent = wishes[currentWishIndex];
+      currentWishIndex++;
+      if (currentWishIndex >= wishes.length) {
+        currentWishIndex = 0;
+      }
+    }
+
+    setInterval(changeWish, 1000);
+
+
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const fireworks = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Particle {
+      constructor(x, y, color, velocity, size) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.velocity = velocity;
+        this.size = size;
+        this.alpha = 1;
+      }
+
+      update() {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.02;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class Firework {
+      constructor(x, y, colors, particleCount = 50) {
+        this.x = x;
+        this.y = y;
+        this.colors = colors;
+        this.particleCount = particleCount;
+        this.particles = [];
+
+        for (let i = 0; i < this.particleCount; i++) {
+          const angle = random(0, Math.PI * 2);
+          const speed = random(1, 5);
+          const velocity = {
+            x: Math.cos(angle) * speed,
+            y: Math.sin(angle) * speed
+          };
+          const color = colors[Math.floor(random(0, colors.length))];
+          const size = random(2, 4);
+
+          this.particles.push(new Particle(x, y, color, velocity, size));
+        }
+      }
+
+      update() {
+        this.particles.forEach((particle, index) => {
+          particle.update();
+          if (particle.alpha <= 0) this.particles.splice(index, 1);
+        });
+      }
+
+      draw() {
+        this.particles.forEach((particle) => particle.draw());
+      }
+
+      isFinished() {
+        return this.particles.length === 0;
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      fireworks.forEach((firework, index) => {
+        firework.update();
+        firework.draw();
+        if (firework.isFinished()) fireworks.splice(index, 1);
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    setInterval(() => {
+      const x = random(100, canvas.width - 100);
+      const y = random(100, canvas.height / 2);
+      const colors = ['#FF5733', '#33FF57', '#3357FF', '#FFD700', '#FF33A1'];
+      fireworks.push(new Firework(x, y, colors));
+    }, 500);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    animate();
+  </script>
+</body>
+
+</html>
