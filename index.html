@@ -421,7 +421,7 @@ form {
         onAuthStateChanged(auth, user => {
             if (!user) {
                 // 🔹 Redirect to login page if not authenticated
-                window.location.href = "index.html";
+                window.location.href = "login.html";
             } else {
                 // 🔹 Show user info (Optional)
                 document.getElementById("user-email").innerText = `Welcome, ${user.email}`;
@@ -431,7 +431,7 @@ form {
         // 🔹 Logout Function
         document.getElementById("logout").addEventListener("click", function () {
             signOut(auth).then(() => {
-                window.location.href = "abd.html"; // 🔹 Redirect to login page after logout
+                window.location.href = "login.html"; // 🔹 Redirect to login page after logout
             });
         });
     
