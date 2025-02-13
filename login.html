@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Signup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+    }
+    
+    .container {
+      width: 400px;
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      animation: slideIn 1s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .form-container {
+      padding: 20px 25px;
+      position: relative;
+    }
+    
+    .form-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .form-toggle button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: #f3f3f3;
+      cursor: pointer;
+      font-weight: bold;
+      color: #333;
+      transition: 0.3s ease-in-out;
+      border-radius: 25px;
+    }
+    
+    .form-toggle button.active {
+      background: #6a11cb;
+      color: #fff;
+    }
+    
+    .form {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .form.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    form h2 { color: #333; margin-bottom: 10px; }
+    form p { margin-bottom: 20px; color: #666; font-size: 14px; }
+    
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+      transition: 0.3s ease-in-out;
+    }
+    
+    form input:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+    }
+    
+    form button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border: none;
+      color: #fff;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s ease-in-out;
+    }
+    
+    form button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+    }
+    
+    .form-toggle button:hover {
+      background: rgba(106, 17, 203, 0.1);
+      color: #6a11cb;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <div class="form-toggle">
+        <button id="login-btn" class="active">Login</button>
+        <button id="signup-btn">Signup</button>
+      </div>
+      
+      <p id="message" style="color:red; text-align:center;"></p>
+      
+      <form id="login-form" class="form active">
+        <h2>Welcome Back!</h2>
+        <p>Please log in to your account.</p>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="button" id="login">Login</button>
+      </form>
+      
+      <form id="signup-form" class="form">
+        <h2>Join Us!</h2>
+        <p>Create your account and start your journey.</p>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button type="button" id="signup">Signup</button>
+      </form>
+      
+      <button id="logout" style="display: none;">Logout</button>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import Firebase modules (MODULAR APPROACH)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+        authDomain: "abdullah-bb8ab.firebaseapp.com",
+        projectId: "abdullah-bb8ab",
+        storageBucket: "abdullah-bb8ab.appspot.com",
+        messagingSenderId: "286504008164",
+        appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Signup
+    document.getElementById("signup").addEventListener("click", function () {
+        let email = document.getElementById("signup-email").value;
+        let password = document.getElementById("signup-password").value;
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                document.getElementById("message").innerText = "Account created successfully!";
+                setTimeout(() => {
+                    window.location.href = "index.html"; // 🔹 Redirect to main page
+                }, 500);
+            })
+            .catch(error => {
+                document.getElementById("message").innerText = error.message;
+            });
+    });
+
+    // 🔹 Login Function
+    document.getElementById("login").addEventListener("click", function () {
+        let email = document.getElementById("login-email").value;
+        let password = document.getElementById("login-password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                document.getElementById("message").innerText = "Login successful!";
+                setTimeout(() => {
+                    window.location.href = "index.html"; // 🔹 Redirect to main page
+                }, 500);
+            })
+            .catch(error => {
+                document.getElementById("message").innerText = error.message;
+            });
+    });
+
+
+    // Logout
+    document.getElementById("logout").addEventListener("click", function () {
+        signOut(auth).then(() => {
+            document.getElementById("message").innerText = "Logged out!";
+            document.getElementById("logout").style.display = "none";
+        });
+    });
+
+    // Toggle Forms
+    document.getElementById("login-btn").addEventListener("click", () => {
+        document.getElementById("login-form").classList.add("active");
+        document.getElementById("signup-form").classList.remove("active");
+    });
+
+    document.getElementById("signup-btn").addEventListener("click", () => {
+        document.getElementById("signup-form").classList.add("active");
+        document.getElementById("login-form").classList.remove("active");
+    });
+  </script>
+</body>
+</html>
