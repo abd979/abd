@@ -164,6 +164,26 @@
       <button id="logout" style="display: none;">Logout</button>
     </div>
   </div>
+  <script>
+  window.addEventListener("load", function(){
+    if (!localStorage.getItem("cookieConsent")) {
+      let consentBanner = document.createElement("div");
+      consentBanner.innerHTML = `
+        <div style="position: fixed; bottom: 0; width: 100%; background: #000; color: #fff; padding: 10px; text-align: center; z-index: 1000;">
+          We use cookies to improve your experience. By using our site, you agree to our <a href="privacy-policy.html" style="color: #4caf50;">Privacy Policy</a>.
+          <button onclick="acceptCookies()" style="margin-left: 10px; padding: 5px 10px; background: #4caf50; color: #fff; border: none; cursor: pointer;">Accept</button>
+        </div>
+      `;
+      document.body.appendChild(consentBanner);
+    }
+  });
+
+  function acceptCookies() {
+    localStorage.setItem("cookieConsent", "accepted");
+    document.querySelector("div[style*='position: fixed']").remove();
+  }
+</script>
+
 
   <script type="module">
     // Import Firebase modules (MODULAR APPROACH)
