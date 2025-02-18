@@ -213,12 +213,36 @@
       const citySelect = document.getElementById("city");
       citySelect.innerHTML = '<option value="">Select City</option>';
 
-      const cities = {
-        "Punjab": ["Lahore", "Faisalabad", "Rawalpindi", "Multan", "Gujranwala", "Sialkot"],
-        "Sindh": ["Karachi", "Hyderabad", "Sukkur", "Larkana", "Nawabshah", "Mirpurkhas"],
-        "Khyber Pakhtunkhwa": ["Peshawar", "Abbottabad", "Mardan", "Swat", "Kohat", "Bannu"],
-        "Balochistan": ["Quetta", "Gwadar", "Turbat", "Khuzdar", "Sibi", "Zhob"]
-      };
+     const cities = {
+  "Punjab": [
+    "Lahore", "Faisalabad", "Rawalpindi", "Multan", "Gujranwala", "Sialkot",
+    "Sargodha", "Bahawalpur", "Sheikhupura", "Rahim Yar Khan", "Jhang",
+    "Sahiwal", "Okara", "Gujrat", "Kasur", "Mandi Bahauddin", "Vehari",
+    "Hafizabad", "Dera Ghazi Khan", "Chiniot", "Khanewal", "Bhakkar",
+    "Muzaffargarh", "Toba Tek Singh", "Lodhran", "Attock", "Pakpattan",
+    "Narowal", "Khushab", "Mianwali", "Jhelum", "Bahawalnagar", "Rajanpur",
+    "Nankana Sahib", "Chakwal", "Layyah"
+  ],
+  "Sindh": [
+    "Karachi", "Hyderabad", "Sukkur", "Larkana", "Nawabshah", "Mirpurkhas",
+    "Khairpur", "Ghotki", "Dadu", "Jacobabad", "Shikarpur", "Thatta",
+    "Badin", "Tando Adam", "Umerkot", "Tando Allahyar", "Matiari",
+    "Qambar Shahdadkot", "Kashmore", "Jamshoro", "Sanghar"
+  ],
+  "Khyber Pakhtunkhwa": [
+    "Peshawar", "Abbottabad", "Mardan", "Swat", "Kohat", "Bannu",
+    "Dera Ismail Khan", "Charsadda", "Nowshera", "Haripur", "Swabi",
+    "Mansehra", "Batkhela", "Timergara", "Buner", "Hangu", "Karak",
+    "Lakki Marwat", "Shangla", "Tank", "Upper Dir", "Lower Dir", "Torghar",
+    "Chitral"
+  ],
+  "Balochistan": [
+    "Quetta", "Gwadar", "Turbat", "Khuzdar", "Sibi", "Zhob", "Chaman",
+    "Kalat", "Mastung", "Nushki", "Panjgur", "Kharan", "Loralai", "Dera Bugti",
+    "Jafarabad", "Lasbela", "Musakhel", "Barkhan", "Awaran", "Washuk",
+    "Kech", "Ziarat", "Killa Saifullah", "Killa Abdullah", "Harnai"
+  ]
+};
 
       if (cities[province]) {
         cities[province].forEach(city => {
