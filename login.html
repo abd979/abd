@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Signup</title>
+    <title>Passwordless Sign-In</title>
     <style>
         * {
             margin: 0;
@@ -71,101 +72,69 @@
         button:hover {
             background: linear-gradient(135deg, #2575fc, #6a11cb);
         }
-
-        .toggle-btn {
-            background: none;
-            color: #2575fc;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-            margin-top: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
     </style>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
-            authDomain: "abdullah-bb8ab.firebaseapp.com",
-            projectId: "abdullah-bb8ab",
-            storageBucket: "abdullah-bb8ab.appspot.com",
-            messagingSenderId: "286504008164",
-            appId: "1:286504008164:web:8642bc9d56f36393052ff1"
-        };
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+      authDomain: "abdullah-bb8ab.firebaseapp.com",
+      projectId: "abdullah-bb8ab",
+      storageBucket: "abdullah-bb8ab.appspot.com",
+      messagingSenderId: "286504008164",
+      appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+    };
 
-        // Initialize Firebase
+        // 🔥 Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Redirect if already logged in
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.location.href = "checkout.html"; // Redirect to checkout page
-            }
-        });
-
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("login-btn").addEventListener("click", login);
-            document.getElementById("signup-btn").addEventListener("click", signup);
-            document.getElementById("toggle-form").addEventListener("click", toggleForms);
+            document.getElementById("send-link-btn").addEventListener("click", sendEmailLink);
         });
 
-        function login() {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
+        // 📩 Send Email Sign-In Link
+        function sendEmailLink() {
+            const email = document.getElementById("email").value;
+            const actionCodeSettings = {
+                url: window.location.href, // Redirect to the same page after login
+                handleCodeInApp: true
+            };
 
-            signInWithEmailAndPassword(auth, email, password)
+            sendSignInLinkToEmail(auth, email, actionCodeSettings)
                 .then(() => {
-                    window.location.href = "test.html"; // Redirect to checkout
+                    alert("Login link sent! Check your email.");
+                    localStorage.setItem("emailForSignIn", email);
                 })
                 .catch(error => alert(error.message));
         }
 
-        function signup() {
-            const email = document.getElementById("signup-email").value;
-            const password = document.getElementById("signup-password").value;
+        // 🔄 Check if user is signing in with email link
+        if (isSignInWithEmailLink(auth, window.location.href)) {
+            let email = localStorage.getItem("emailForSignIn");
+            if (!email) {
+                email = prompt("Please enter your email for confirmation");
+            }
 
-            createUserWithEmailAndPassword(auth, email, password)
+            signInWithEmailLink(auth, email, window.location.href)
                 .then(() => {
-                    window.location.href = "test.html"; // Redirect to checkout
+                    localStorage.removeItem("emailForSignIn");
+                    window.location.href = "test.html"; // Redirect after successful login
                 })
                 .catch(error => alert(error.message));
-        }
-
-        function toggleForms() {
-            document.getElementById("login-form").classList.toggle("hidden");
-            document.getElementById("signup-form").classList.toggle("hidden");
         }
     </script>
 </head>
 <body>
 
     <div class="container">
-        <!-- Login Form -->
-        <div id="login-form">
-            <h2>Welcome Back!</h2>
-            <p>Please log in to your account.</p>
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button id="login-btn">Login</button>
-            <button class="toggle-btn" id="toggle-form">Don't have an account? Sign Up</button>
-        </div>
-
-        <!-- Signup Form (Hidden Initially) -->
-        <div id="signup-form" class="hidden">
-            <h2>Create an Account</h2>
-            <p>Sign up to continue.</p>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <button id="signup-btn">Sign Up</button>
-            <button class="toggle-btn" id="toggle-form">Already have an account? Login</button>
-        </div>
+        <h2>Passwordless Sign-In</h2>
+        <p>Enter your email to receive a login link.</p>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button id="send-link-btn">Send Login Link</button>
     </div>
 
 </body>
