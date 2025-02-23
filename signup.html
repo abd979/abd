@@ -122,7 +122,7 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    window.location.href = "checkout.html"; // Redirect to checkout
+                    window.location.href = "index.html"; // Redirect to checkout
                 })
                 .catch(error => alert(error.message));
         }
@@ -133,7 +133,7 @@
 
             createUserWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    window.location.href = "checkout.html"; // Redirect to checkout
+                    window.location.href = "index.html"; // Redirect to checkout
                 })
                 .catch(error => alert(error.message));
         }
