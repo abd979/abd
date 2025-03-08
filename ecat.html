@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UET Aggregate Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Section */
+        .input-section {
+            margin-bottom: 25px;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 14px;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .input-section input,
+        .input-section select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2c3e50;
+            background: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-section input:focus,
+        .input-section select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        /* Button */
+        .button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        /* Results Section */
+        #aggregateResult {
+            text-align: center;
+            font-size: 18px;
+            color: #27ae60;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Results Table */
+        .results-table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .results-table th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+
+        .results-table tr:hover {
+            background: #f1f1f1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .input-section input,
+            .input-section select {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+       const fieldsData = [
+        
+        { "discipline": "Architectural Engineering", "campus": "LHR", "category": "A1", "minAggregate": 74.326 },
+        { "discipline": "Architectural Engineering", "campus": "LHR", "category": "A2", "minAggregate": 71.064 },
+        { "discipline": "Architectural Engineering", "campus": "LHR", "category": "S", "minAggregate": 51.293 },
+        { "discipline": "Architecture", "campus": "LHR", "category": "A1", "minAggregate": 76.013 },
+        { "discipline": "Architecture", "campus": "LHR", "category": "A2", "minAggregate": 72.105 },
+        { "discipline": "Architecture", "campus": "LHR", "category": "N", "minAggregate": 71.669 },
+        { "discipline": "Architecture", "campus": "LHR", "category": "S", "minAggregate": 51.895 },
+        { "discipline": "Architecture", "campus": "NWL", "category": "A1", "minAggregate": 50.103 },
+        { "discipline": "Automotive Engineering", "campus": "LHR", "category": "A1", "minAggregate": 70.290 },
+        { "discipline": "Automotive Engineering", "campus": "LHR", "category": "A2", "minAggregate": 63.982 },
+        { "discipline": "Bachelor of Business Administration(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 65.591 },
+        { "discipline": "Bachelor of Business Administration(F.Sc. Based)", "campus": "KSK", "category": "A1-M", "minAggregate": 59.419 },
+        { "discipline": "Bachelor of Business Administration(F.Sc. Based)", "campus": "LHR", "category": "A2", "minAggregate": 51.682 },
+        { "discipline": "Bachelor of Business Administration(F.Sc. Based)", "campus": "KSK", "category": "A1", "minAggregate": 50.612 },
+        { "discipline": "Bachelor of Business Information Technology(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 81.016 },
+        { "discipline": "Bachelor of Business Information Technology(F.Sc. Based)", "campus": "LHR", "category": "A2", "minAggregate": 68.926 },
+        { "discipline": "Biomedical Engineering", "campus": "KSK", "category": "A1-M", "minAggregate": 78.931 },
+        { "discipline": "Biomedical Engineering", "campus": "KSK", "category": "A2-M", "minAggregate": 73.170 },
+        { "discipline": "Biomedical Engineering", "campus": "KSK", "category": "A1", "minAggregate": 65.451 },
+        { "discipline": "Biomedical Engineering", "campus": "NWL", "category": "A1-M", "minAggregate": 64.068 },
+        { "discipline": "Biomedical Engineering", "campus": "KSK", "category": "P", "minAggregate": 57.263 },
+        { "discipline": "Biomedical Engineering", "campus": "KSK", "category": "A2", "minAggregate": 54.407 },
+        { "discipline": "Biomedical Engineering", "campus": "NWL", "category": "A1", "minAggregate": 50.065 },
+        { "discipline": "Chemical Engineering", "campus": "LHR", "category": "N", "minAggregate": 72.921 },
+        { "discipline": "Chemical Engineering", "campus": "LHR", "category": "A1", "minAggregate": 70.771 },
+        { "discipline": "Chemical Engineering", "campus": "LHR", "category": "A2", "minAggregate": 66.858 },
+        { "discipline": "Chemical Engineering", "campus": "KSK", "category": "A1", "minAggregate": 59.405 },
+        { "discipline": "Chemical Engineering", "campus": "LHR", "category": "S", "minAggregate": 57.544 },
+        { "discipline": "Chemical Engineering", "campus": "KSK", "category": "A2", "minAggregate": 54.996 },
+        { "discipline": "Chemical Engineering", "campus": "LHR", "category": "NM", "minAggregate": 51.475 },
+        { "discipline": "Chemical Engineering", "campus": "FSD", "category": "A1", "minAggregate": 50.634 },
+        { "discipline": "Chemistry(F.Sc. Based)", "campus": "LHR", "category": "A1-M", "minAggregate": 58.621 },
+        { "discipline": "Chemistry(F.Sc. Based)", "campus": "KSK", "category": "A1", "minAggregate": 55.722 },
+        { "discipline": "Chemistry(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 55.202 },
+        { "discipline": "Chemistry(F.Sc. Based)", "campus": "KSK", "category": "A1-M", "minAggregate": 53.686 },
+        { "discipline": "City & Regional Planning", "campus": "LHR", "category": "N", "minAggregate": 67.200 },
+        { "discipline": "City & Regional Planning", "campus": "LHR", "category": "A1", "minAggregate": 66.484 },
+        { "discipline": "City & Regional Planning", "campus": "LHR", "category": "A2", "minAggregate": 65.963 },
+        { "discipline": "City & Regional Planning", "campus": "LHR", "category": "T", "minAggregate": 50.780 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "A1", "minAggregate": 73.211 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "A2", "minAggregate": 66.566 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "N", "minAggregate": 66.539 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "P", "minAggregate": 56.725 },
+        { "discipline": "Civil Engineering", "campus": "NWL", "category": "P", "minAggregate": 55.860 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "NM", "minAggregate": 55.501 },
+        { "discipline": "Civil Engineering", "campus": "NWL", "category": "S", "minAggregate": 54.941 },
+        { "discipline": "Civil Engineering", "campus": "NWL", "category": "A1", "minAggregate": 54.578 },
+        { "discipline": "Civil Engineering", "campus": "LHR", "category": "S", "minAggregate": 53.621 },
+        { "discipline": "Computer Engineering", "campus": "LHR", "category": "A1", "minAggregate": 76.259 },
+        { "discipline": "Computer Engineering", "campus": "LHR", "category": "A2", "minAggregate": 72.788 },
+        { "discipline": "Computer Engineering", "campus": "LHR", "category": "NM", "minAggregate": 67.816 },
+        { "discipline": "Computer Science", "campus": "LHR", "category": "A1-M", "minAggregate": 84.910 },
+        { "discipline": "Computer Science", "campus": "LHR", "category": "A2-M", "minAggregate": 81.992 },
+        { "discipline": "Computer Science", "campus": "LHR", "category": "A1", "minAggregate": 81.132 },
+        { "discipline": "Computer Science", "campus": "KSK", "category": "A1-M", "minAggregate": 80.518 },
+        { "discipline": "Computer Science", "campus": "KSK", "category": "A2-M", "minAggregate": 79.669 },
+        { "discipline": "Computer Science", "campus": "FSD", "category": "A1-M", "minAggregate": 79.279 },
+       
+        { "discipline": "Computer Science", "campus": "FSD", "category": "A1-M", "minAggregate": 79.279 },
+        { "discipline": "Computer Science", "campus": "LHR", "category": "A2", "minAggregate": 78.794 },
+        { "discipline": "Computer Science", "campus": "KSK", "category": "A1", "minAggregate": 76.404 },
+        { "discipline": "Computer Science", "campus": "RCET", "category": "A1-M", "minAggregate": 75.399 },
+        { "discipline": "Computer Science", "campus": "NWL", "category": "A1-M", "minAggregate": 75.038 },
+        { "discipline": "Computer Science", "campus": "KSK", "category": "A2", "minAggregate": 74.035 },
+        { "discipline": "Computer Science", "campus": "FSD", "category": "A1", "minAggregate": 72.284 },
+        { "discipline": "Computer Science", "campus": "NWL", "category": "A1", "minAggregate": 67.844 },
+        { "discipline": "Computer Science", "campus": "LHR", "category": "NM", "minAggregate": 66.630 },
+        { "discipline": "Computer Science", "campus": "RCET", "category": "A1", "minAggregate": 66.183 },
+        { "discipline": "Computer Science", "campus": "KSK", "category": "NM", "minAggregate": 66.109 },
+        { "discipline": "Computer Science", "campus": "NWL", "category": "NM", "minAggregate": 56.871 },
+        { "discipline": "Data Science", "campus": "LHR", "category": "A1-M", "minAggregate": 82.937 },
+        { "discipline": "Data Science", "campus": "LHR", "category": "A2-M", "minAggregate": 80.648 },
+        { "discipline": "Data Science", "campus": "LHR", "category": "A1", "minAggregate": 79.530 },
+        { "discipline": "Data Science", "campus": "LHR", "category": "A2", "minAggregate": 76.272 },
+        { "discipline": "Data Science", "campus": "LHR", "category": "NM", "minAggregate": 69.133 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "A1", "minAggregate": 73.299 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "L", "minAggregate": 72.741 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "R", "minAggregate": 71.903 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "O", "minAggregate": 71.223 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "A2", "minAggregate": 67.906 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "N", "minAggregate": 67.565 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "P", "minAggregate": 67.535 },
+        { "discipline": "Electrical Engineering", "campus": "KSK", "category": "A1", "minAggregate": 67.406 },
+        { "discipline": "Electrical Engineering", "campus": "KSK", "category": "A2", "minAggregate": 66.140 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "NM", "minAggregate": 64.361 },
+        { "discipline": "Electrical Engineering", "campus": "FSD", "category": "A1", "minAggregate": 59.248 },
+        { "discipline": "Electrical Engineering", "campus": "NWL", "category": "S", "minAggregate": 56.520 },
+    
+        { "discipline": "Electrical Engineering", "campus": "RCET", "category": "S", "minAggregate": 54.773 },
+        { "discipline": "Electrical Engineering", "campus": "RCET", "category": "A1", "minAggregate": 54.523 },
+        { "discipline": "Electrical Engineering", "campus": "LHR", "category": "S", "minAggregate": 54.293 },
+        { "discipline": "Electrical Engineering", "campus": "KSK", "category": "S", "minAggregate": 50.570 },
+        { "discipline": "Electrical Engineering", "campus": "FSD", "category": "S", "minAggregate": 50.570 },
+        { "discipline": "Electrical Engineering", "campus": "NWL", "category": "A1", "minAggregate": 50.061 },
+        { "discipline": "Energy Systems and Management(F.Sc. Based)", "campus": "KSK", "category": "A1-M", "minAggregate": 76.760 },
+        { "discipline": "Energy Systems and Management(F.Sc. Based)", "campus": "KSK", "category": "A1", "minAggregate": 50.800 },
+        { "discipline": "Environmental Engineering", "campus": "LHR", "category": "A1", "minAggregate": 62.771 },
+        { "discipline": "Environmental Engineering", "campus": "LHR", "category": "NM", "minAggregate": 62.056 },
+        { "discipline": "Environmental Engineering", "campus": "LHR", "category": "S", "minAggregate": 55.605 },
+        { "discipline": "Environmental Science(F.Sc. Based)", "campus": "LHR", "category": "S", "minAggregate": 87.068 },
+        { "discipline": "Environmental Science(F.Sc. Based)", "campus": "LHR", "category": "A1-M", "minAggregate": 50.727 },
+        { "discipline": "Environmental Science(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 50.612 },
+        { "discipline": "Food Science & Technology(F.Sc. Based)", "campus": "KSK", "category": "A1-M", "minAggregate": 62.109 },
+        { "discipline": "Food Science & Technology(F.Sc. Based)", "campus": "KSK", "category": "A1", "minAggregate": 54.676 },
+        { "discipline": "Geological Engineering", "campus": "LHR", "category": "A1", "minAggregate": 51.136 },
+        { "discipline": "Industrial & Manufacturing Engineering", "campus": "LHR", "category": "A1", "minAggregate": 65.276 },
+        { "discipline": "Industrial & Manufacturing Engineering", "campus": "LHR", "category": "A2", "minAggregate": 64.141 },
+        { "discipline": "Industrial & Manufacturing Engineering", "campus": "LHR", "category": "S", "minAggregate": 55.142 },
+        { "discipline": "Industrial & Manufacturing Engineering", "campus": "RCET", "category": "A1", "minAggregate": 51.277 },
+        { "discipline": "Mathematics(F.Sc. Based)", "campus": "LHR", "category": "S", "minAggregate": 77.459 },
+        { "discipline": "Mathematics(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 54.136 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "A1", "minAggregate": 74.045 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "L", "minAggregate": 73.015 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "A2", "minAggregate": 67.840 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "N", "minAggregate": 67.137 },
+        { "discipline": "Mechanical Engineering", "campus": "KSK", "category": "A1", "minAggregate": 66. },
+        { "discipline": "Mechanical Engineering", "campus": "KSK", "category": "A2", "minAggregate": 63.718 },
+        { "discipline": "Mechanical Engineering", "campus": "RCET", "category": "S", "minAggregate": 60.525 },
+        { "discipline": "Mechanical Engineering", "campus": "NWL", "category": "P", "minAggregate": 59.338 },
+        { "discipline": "Mechanical Engineering", "campus": "KSK", "category": "S", "minAggregate": 53.048 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "S", "minAggregate": 52.692 },
+        { "discipline": "Mechanical Engineering", "campus": "LHR", "category": "NM", "minAggregate": 51.475 },
+        { "discipline": "Mechanical Engineering", "campus": "NWL", "category": "A1", "minAggregate": 51.277 },
+        { "discipline": "Mechanical Engineering", "campus": "RCET", "category": "A1", "minAggregate": 50.897 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "LHR", "category": "A1", "minAggregate": 73.066 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "LHR", "category": "A2", "minAggregate": 70.599 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "LHR", "category": "S", "minAggregate": 67.504 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "FSD", "category": "S", "minAggregate": 56.210 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "LHR", "category": "NM", "minAggregate": 51.106 },
+        { "discipline": "Mechatronics & Control Engineering", "campus": "FSD", "category": "A1", "minAggregate": 50.056 },
+        { "discipline": "Metallurgical & Materials Engineering", "campus": "LHR", "category": "N", "minAggregate": 67.137 },
+        { "discipline": "Metallurgical & Materials Engineering", "campus": "LHR", "category": "A1", "minAggregate": 62.229 },
+        { "discipline": "Metallurgical & Materials Engineering", "campus": "LHR", "category": "S", "minAggregate": 55.183 },
+        { "discipline": "Mining Engineering", "campus": "LHR", "category": "N", "minAggregate": 53.969 },
+        { "discipline": "Mining Engineering", "campus": "LHR", "category": "A1", "minAggregate": 51.108 },
+        { "discipline": "Petroleum & Gas Engineering", "campus": "LHR", "category": "A1", "minAggregate": 69.839 },
+        { "discipline": "Petroleum & Gas Engineering", "campus": "LHR", "category": "A2", "minAggregate": 67.972 },
+        { "discipline": "Petroleum & Gas Engineering", "campus": "LHR", "category": "S", "minAggregate": 59.216 },
+        { "discipline": "Petroleum & Gas Engineering", "campus": "LHR", "category": "N", "minAggregate": 58.254 },
+        { "discipline": "Physics(F.Sc. Based)", "campus": "LHR", "category": "S", "minAggregate": 77.043 },
+        { "discipline": "Physics(F.Sc. Based)", "campus": "LHR", "category": "A1-M", "minAggregate": 59.686 },
+        { "discipline": "Physics(F.Sc. Based)", "campus": "LHR", "category": "A1", "minAggregate": 59.299 },
+        { "discipline": "Polymer Engineering", "campus": "LHR", "category": "A1", "minAggregate": 53.135 },
+        { "discipline": "Product & Industrial Design", "campus": "LHR", "category": "S", "minAggregate": 62.871 },
+        { "discipline": "Product & Industrial Design", "campus": "LHR", "category": "A2", "minAggregate": 59.750 },
+        { "discipline": "Product & Industrial Design", "campus": "LHR", "category": "A1", "minAggregate": 58.879 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "A1-M", "minAggregate": 83.835 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "A2-M", "minAggregate": 82.888 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "A1", "minAggregate": 78.884 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "A2", "minAggregate": 78.023 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "S", "minAggregate": 71.860 },
+        { "discipline": "Software Engineering", "campus": "KSK", "category": "NM", "minAggregate": 59.214 },
+        { "discipline": "Textile Engineering", "campus": "FSD", "category": "A1", "minAggregate": 50.062 },
+        { "discipline": "Transportation Engineering", "campus": "LHR", "category": "S", "minAggregate": 57.120 },
+        { "discipline": "Transportation Engineering", "campus": "LHR", "category": "A1", "minAggregate": 55.198 }
+    ];
+
+        function calculateAggregate() {
+            const metric = parseFloat(document.getElementById('metric').value);
+            const firstYear = parseFloat(document.getElementById('firstYear').value);
+            const ecat = parseFloat(document.getElementById('ecat').value);
+            const category = document.getElementById('category').value;
+
+            // Input validation
+            if (isNaN(metric) || isNaN(firstYear) || isNaN(ecat)) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+            if (metric < 0 || metric > 1100) {
+                alert("Metric marks must be between 0 and 1100.");
+                return;
+            }
+            if (firstYear < 0 || firstYear > 570) {
+                alert("First Year marks must be between 0 and 570.");
+                return;
+            }
+            if (ecat < 0 || ecat > 400) {
+                alert("ECAT marks must be between 0 and 400.");
+                return;
+            }
+
+            const aggregate = (metric * 17 / 1100) + (firstYear * 50 / 570) + (ecat * 33 / 400);
+            document.getElementById('aggregateResult').innerText = "Calculated Aggregate: " + aggregate.toFixed(2);
+
+            displayEligibleFields(aggregate, category);
+        }
+
+        function displayEligibleFields(aggregate, category) {
+            // Filter fields based on aggregate and selected category
+            const eligibleFields = fieldsData.filter(field => field.minAggregate <= aggregate && field.category === category);
+
+            // Group by discipline and combine campuses
+            const groupedFields = {};
+            eligibleFields.forEach(field => {
+                if (!groupedFields[field.discipline]) {
+                    groupedFields[field.discipline] = {
+                        campuses: [],
+                        minAggregate: field.minAggregate
+                    };
+                }
+                groupedFields[field.discipline].campuses.push(field.campus);
+            });
+
+            // Sort disciplines alphabetically
+            const sortedDisciplines = Object.keys(groupedFields).sort();
+
+            const resultsTable = document.getElementById('resultsTable');
+            resultsTable.innerHTML = "";
+
+            let tableHTML = "<tr><th>Discipline</th><th>Category</th><th>Campuses</th><th>Minimum Aggregate</th></tr>";
+
+            // Display each discipline with campuses
+            sortedDisciplines.forEach(discipline => {
+                const { campuses, minAggregate } = groupedFields[discipline];
+                tableHTML += `
+                    <tr>
+                        <td>${discipline}</td>
+                        <td>${category}</td>
+                        <td>${campuses.join(", ")}</td>
+                        <td>${minAggregate}</td>
+                    </tr>
+                `;
+            });
+
+            resultsTable.innerHTML = tableHTML;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>UET Aggregate Calculator</h1>
+        <div class="input-section">
+            <label for="metric">Metric Marks (0-1100)</label>
+            <input type="number" id="metric" placeholder="Enter Metric Marks" />
+            <label for="firstYear">First Year Marks (0-570)</label>
+            <input type="number" id="firstYear" placeholder="Enter First Year Marks" />
+            <label for="ecat">ECAT Marks (0-400)</label>
+            <input type="number" id="ecat" placeholder="Enter ECAT Marks" />
+            <label for="category">Select Category</label>
+            <select id="category">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="S">S</option>
+                <option value="N">N</option>
+                <option value="P">P</option>
+                <option value="NM">NM</option>
+            </select>
+        </div>
+        <button class="button" onclick="calculateAggregate()">Calculate Aggregate</button>
+        <div id="aggregateResult"></div>
+        <table class="results-table" id="resultsTable"></table>
+    </div>
+</body>
+</html>
