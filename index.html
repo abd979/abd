@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-adsense-account" content="ca-pub-2646942180137186">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2646942180137186" crossorigin="anonymous"></script>
+  <title>Professional Webpage</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+  <style>
+
+/* Navigation Bar */
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: var(--secondary-color);
+  padding: 10px;
+  box-shadow: var(--shadow);
+}
+
+nav a {
+  color: var(--text-color);
+  margin: 0 15px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--accent-color);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* ECAT Test Button in Navigation */
+#ecat-button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 0 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#ecat-button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+:root {
+  --primary-color: #4a90e2; /* Soft Blue */
+  --secondary-color: #f8f9fa; /* Light Gray */
+  --accent-color: #ff6b6b; /* Coral */
+  --background-color: #ffffff; /* White */
+  --text-color: #333333; /* Dark Gray */
+  --white: #ffffff;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header */
+header {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: var(--secondary-color);
+  padding: 10px;
+  box-shadow: var(--shadow);
+}
+
+nav a {
+  color: var(--text-color);
+  margin: 0 15px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--accent-color);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* Sections */
+section {
+  display: none;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+section.active {
+  display: block;
+}
+
+/* Calculator Section */
+#calculator input, #calculator select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+#calculator button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#calculator button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Books Section */
+#books h2 {
+  cursor: pointer;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 5px;
+  margin: 10px 0;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#books h2:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+#books ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+}
+
+#books ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#books ul li:last-child {
+  border-bottom: none;
+}
+
+#books ul li a {
+  color: var(--primary-color);
+  transition: color 0.3s;
+}
+
+#books ul li a:hover {
+  color: var(--accent-color);
+}
+
+/* Game Section */
+#game {
+  text-align: center;
+}
+
+.scorecard {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.score {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 5px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--primary-color);
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.cell.taken {
+  pointer-events: none;
+}
+
+.cell:hover {
+  background-color: var(--accent-color);
+  color: var(--white);
+  transform: scale(1.05);
+}
+
+.message {
+  font-size: 1.2rem;
+  margin: 20px 0;
+  color: var(--accent-color);
+}
+
+.controls button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.controls button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Contact Section */
+#contact form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#contact input, #contact textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+#contact button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#contact button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  margin-top: 20px;
+}
+
+.footer a {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.instagram-icon {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s;
+}
+
+.instagram-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav a {
+    margin: 5px 0;
+  }
+
+  .board {
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+  }
+}
+/* Account Dropdown */
+.account-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+#account-button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--white);
+  min-width: 160px;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+  z-index: 1;
+  right: 0;
+}
+
+.dropdown-content a {
+  color: var(--text-color);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--secondary-color);
+  color: var(--white);
+}
+
+.account-dropdown:hover .dropdown-content {
+  display: block;
+}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Welcome to Webpage</h1>
+    <div class="account-dropdown">
+      <button id="account-button">
+        <span id="account-text">Account</span>
+        <span>▼</span>
+      </button>
+      <div id="account-menu" class="dropdown-content">
+        <a href="#" id="login-link">Login</a>
+        <a href="#" id="signup-link">Signup</a>
+        <a href="#" id="profile-link" style="display: none;">View Account</a>
+        <a href="#" id="logout-link" style="display: none;">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#calculator" onclick="showSection('calculator')">Aggregate Calculator</a>
+    <a href="#books" onclick="showSection('books')">Books</a>
+    <a href="#game" onclick="showSection('game')">Game</a>
+    <a href="#contact" onclick="showSection('contact')">Contact</a>
+    <button id="ecat-button" onclick="window.location.href='https://ecat.absd.site'">
+        Take ECAT Test
+      </button>
+  </nav>
+
+  <!-- Sections -->
+  <section id="calculator" class="active">
+    <h2>Aggregate Calculator</h2>
+    <input type="number" id="marks1" placeholder="First Year Marks">
+    <input type="number" id="marks2" placeholder="Metric Marks">
+    <select id="examType">
+      <option value="ecat">ECAT</option>
+      <option value="net">NET</option>
+      <option value="nts">NTS</option>
+    </select>
+    <input type="number" id="testMarks" placeholder="Test Marks">
+    <button onclick="calculateAggregate()">Calculate</button>
+    <h3 id="aggregateResult"></h3>
+  </section>
+
+ 
+  <section id="books">
+    <h2>Books</h2>
+    
+    <!-- Physics Section -->
+    <h2 onclick="toggleList('physicsList')">Physics</h2>
+    <ul id="physicsList">
+        <li><a href="physics.pdf" target="_blank">Physics</a></li>
+
+<li><a href="Worksheet-01.pdf" target="_blank">Worksheet-01</a></li>
+<li><a href="Worksheet-02.pdf" target="_blank">Worksheet-02</a></li>
+<li><a href="Worksheet-03.pdf" target="_blank">Worksheet-03</a></li>
+<li><a href="Worksheet-04.pdf" target="_blank">Worksheet-04</a></li>
+<li><a href="Worksheet-05.pdf" target="_blank">Worksheet-05</a></li>
+<li><a href="Worksheet-06.pdf" target="_blank">Worksheet-06</a></li>
+<li><a href="Worksheet-07.pdf" target="_blank">Worksheet-07</a></li>
+<li><a href="Worksheet-08.pdf" target="_blank">Worksheet-08</a></li>
+<li><a href="Worksheet-09.pdf" target="_blank">Worksheet-09</a></li>
+<li><a href="Worksheet-10.pdf" target="_blank">Worksheet-10</a></li>
+<li><a href="Worksheet-11.pdf" target="_blank">Worksheet-11</a></li>
+<li><a href="Worksheet-12.pdf" target="_blank">Worksheet-12</a></li>
+    </ul>
+
+    <!-- Chemistry Section -->
+    <h2 onclick="toggleList('chemistryList')">Chemistry</h2>
+    <ul id="chemistryList">
+        <li><a href="chemistry.pdf" target="_blank">Chemistry </a></li>
+
+<li><a href="Worksheet-01c.pdf" target="_blank">Worksheet-01 </a></li>
+<li><a href="Worksheet-02c.pdf" target="_blank">Worksheet-02 </a></li>
+<li><a href="Worksheet-03c.pdf" target="_blank">Worksheet-03 </a></li>
+<li><a href="Worksheet-04c.pdf" target="_blank">Worksheet-04 </a></li>
+<li><a href="Worksheet-05c.pdf" target="_blank">Worksheet-05 </a></li>
+<li><a href="Worksheet-06c.pdf" target="_blank">Worksheet-06 </a></li>
+<li><a href="Worksheet-07c.pdf" target="_blank">Worksheet-07 </a></li>
+<li><a href="Worksheet-08c.pdf" target="_blank">Worksheet-08 </a></li>
+<li><a href="Worksheet-09c.pdf" target="_blank">Worksheet-09 </a></li>
+ <li><a href="Worksheet-10c.pdf" target="_blank">Worksheet-10 </a></li>
+ <li><a href="Worksheet-11c.pdf" target="_blank">Worksheet-11</a></li>
+ <li><a href="Worksheet-12c.pdf" target="_blank">Worksheet-12 </a></li>
+ <li><a href="Worksheet-13c.pdf" target="_blank">Worksheet-13 </a></li>
+ <li><a href="Worksheet-14c.pdf" target="_blank">Worksheet-14 </a></li>
+ 
+    </ul>
+
+    <!-- English Section -->
+    <h2 onclick="toggleList('mathList')">English</h2>
+    <ul id="mathList">
+        <li><a href="english.pdf" target="_blank">English</a></li>
+        <li><a href="Worksheet-01E.pdf" target="_blank">Worksheet-01</a></li>
+        <li><a href="Worksheet-02E.pdf" target="_blank">Worksheet-02</a></li>
+        <li><a href="Worksheet-03E.pdf" target="_blank">Worksheet-03</a></li>
+        <li><a href="Worksheet-04E.pdf" target="_blank">Worksheet-04</a></li>
+        <li><a href="Worksheet-05E.pdf" target="_blank">Worksheet-05</a></li>
+        <li><a href="Worksheet-06E.pdf" target="_blank">Worksheet-06</a></li>
+        <li><a href="Worksheet-07E.pdf" target="_blank">Worksheet-07</a></li>
+        <li><a href="Worksheet-08E.pdf" target="_blank">Worksheet-08</a></li>
+        <li><a href="Worksheet-09E.pdf" target="_blank">Worksheet-09</a></li>
+        <li><a href="Worksheet-10E.pdf" target="_blank">Worksheet-10</a></li>
+        <li><a href="Worksheet-11E.pdf" target="_blank">Worksheet-11</a></li>
+        <li><a href="Worksheet-12E.pdf" target="_blank">Worksheet-12</a></li>
+        <li><a href="Worksheet-13E.pdf" target="_blank">Worksheet-13</a></li>
+        <li><a href="Worksheet-14E.pdf" target="_blank">Worksheet-14</a></li>
+       
+</section>
+
+  <section id="game">
+    <div class="scorecard">
+      <div class="score" id="human-score">You: 0</div>
+      <div class="score" id="ai-score">AI: 0</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="message" id="message"></div>
+    <div class="controls">
+      <button class="button" id="restart">Restart</button>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="cont">
+      <form id="contact-form">
+        <!-- Access Key -->
+        <input type="hidden" name="access_key" value="ed56c54d-eb19-49ae-b051-fbe97b2d8a7f">
+        
+        <!-- Form Inputs -->
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        
+        <!-- Honeypot Spam Protection -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+        
+        <!-- Submit Button -->
+        <button type="submit">Submit Form</button>
+        
+        <!-- Result Message -->
+        <div id="result"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <a href="https://www.instagram.com/imabd73" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="instagram-icon">
+    </a>
+    <p>Created by Anonymous User</p>
+  </footer>
+
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+  authDomain: "abdullah-bb8ab.firebaseapp.com",
+  projectId: "abdullah-bb8ab",
+  storageBucket: "abdullah-bb8ab.appspot.com",
+  messagingSenderId: "286504008164",
+  appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Check if it's the user's first visit
+if (!localStorage.getItem("visited")) {
+  localStorage.setItem("visited", "true");
+  window.location.href = "login.html"; // Redirect to login page
+}
+
+// Check authentication state
+onAuthStateChanged(auth, (user) => {
+  const accountText = document.getElementById("account-text");
+  const loginLink = document.getElementById("login-link");
+  const signupLink = document.getElementById("signup-link");
+  const profileLink = document.getElementById("profile-link");
+  const logoutLink = document.getElementById("logout-link");
+
+  if (user) {
+    // User is signed in
+    accountText.innerText = user.email; // Show user's email
+    loginLink.style.display = "none";
+    signupLink.style.display = "none";
+    profileLink.style.display = "block";
+    logoutLink.style.display = "block";
+  } else {
+    // User is signed out
+    accountText.innerText = "Account";
+    loginLink.style.display = "block";
+    signupLink.style.display = "block";
+    profileLink.style.display = "none";
+    logoutLink.style.display = "none";
+  }
+});
+
+// Login Function
+document.getElementById("login-btn")?.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent form submission
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "index.html"; // Redirect to main page
+    })
+    .catch((error) => {
+      alert(error.message); // Show error message
+    });
+});
+
+// Signup Function
+document.getElementById("signup-btn")?.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent form submission
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "index.html"; // Redirect to main page
+    })
+    .catch((error) => {
+      alert(error.message); // Show error message
+    });
+});
+
+// Logout Function
+document.getElementById("logout-link")?.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent default link behavior
+  signOut(auth).then(() => {
+    window.location.href = "index.html"; // Redirect to homepage after logout
+  });
+});
+</script>
+<script>
+   function showSection(id) {
+  const sections = document.querySelectorAll('section');
+  sections.forEach(section => {
+    section.classList.remove('active');
+    if (section.id === id) {
+      section.classList.add('active');
+    }
+  });
+}
+function toggleList(listId) {
+        const list = document.getElementById(listId);
+        list.style.display = (list.style.display === 'none' || list.style.display === '') ? 'block' : 'none';
+    }
+
+    // Aggregate Calculator Logic
+    function calculateAggregate() {
+        const marks1 = parseFloat(document.getElementById('marks1').value) || 0;
+        const marks2 = parseFloat(document.getElementById('marks2').value) || 0;
+        const examType = document.getElementById('examType').value;
+        const testMarks = parseFloat(document.getElementById('testMarks').value) || 0;
+
+        let aggregate = 0;
+        if (examType === 'ecat') {
+        // ECAT Formula
+        aggregate = (marks1 * 50 / 570) + (marks2 * 17 / 1100) + (testMarks * 33 / 400);
+      } else if (examType === 'net') {
+        // NET Formula
+        aggregate = (marks1 * 15 / 570) + (marks2 * 10 / 1100) + (testMarks * 75 / 200);
+      } else if (examType === 'nts') {
+        // NTS Formula
+        aggregate = (10 * marks2 / 1100) + (40 * marks1 / 570) + (50 * testMarks / 100);
+      }
+
+        document.getElementById('aggregateResult').innerText = `Aggregate: ${aggregate.toFixed(2)}`;
+    }
+    const board = document.getElementById("board");
+    const message = document.getElementById("message");
+    const restartButton = document.getElementById("restart");
+    const humanScoreEl = document.getElementById("human-score");
+    const aiScoreEl = document.getElementById("ai-score");
+
+    let gameBoard = Array(9).fill(null);
+    const human = "X";
+    const ai = "O";
+
+    let humanScore = 0;
+    let aiScore = 0;
+
+    const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+
+    function checkWinner(board, player) {
+        return winningCombinations.some(combination =>
+            combination.every(index => board[index] === player)
+        );
+    }
+
+    function isDraw(board) {
+        return board.every(cell => cell !== null);
+    }
+
+    function minimax(newBoard, depth, isMaximizing) {
+        if (checkWinner(newBoard, ai)) return { score: 10 - depth };
+        if (checkWinner(newBoard, human)) return { score: depth - 10 };
+        if (isDraw(newBoard)) return { score: 0 };
+
+        const availableMoves = newBoard.map((cell, index) => cell === null ? index : null).filter(index => index !== null);
+
+        if (isMaximizing) {
+            let bestMove = { score: -Infinity };
+            for (let move of availableMoves) {
+                newBoard[move] = ai;
+                let result = minimax(newBoard, depth + 1, false);
+                newBoard[move] = null;
+                if (result.score > bestMove.score) {
+                    bestMove = { score: result.score, index: move };
+                }
+            }
+            return bestMove;
+        } else {
+            let bestMove = { score: Infinity };
+            for (let move of availableMoves) {
+                newBoard[move] = human;
+                let result = minimax(newBoard, depth + 1, true);
+                newBoard[move] = null;
+                if (result.score < bestMove.score) {
+                    bestMove = { score: result.score, index: move };
+                }
+            }
+            return bestMove;
+        }
+    }
+
+    function aiMove() {
+        const bestMove = minimax(gameBoard, 0, true);
+        gameBoard[bestMove.index] = ai;
+        renderBoard();
+        if (checkWinner(gameBoard, ai)) {
+            message.textContent = "AI wins!";
+            aiScore++;
+            updateScore();
+            board.classList.add("disabled");
+        } else if (isDraw(gameBoard)) {
+            message.textContent = "It's a draw!";
+        }
+    }
+
+    function handleCellClick(e) {
+        const cellIndex = e.target.dataset.index;
+        if (!gameBoard[cellIndex]) {
+            gameBoard[cellIndex] = human;
+            renderBoard();
+            if (checkWinner(gameBoard, human)) {
+                message.textContent = "You win!";
+                humanScore++;
+                updateScore();
+                board.classList.add("disabled");
+            } else if (isDraw(gameBoard)) {
+                message.textContent = "It's a draw!";
+            } else {
+                aiMove();
+            }
+        }
+    }
+
+    function renderBoard() {
+        board.innerHTML = "";
+        gameBoard.forEach((cell, index) => {
+            const cellDiv = document.createElement("div");
+            cellDiv.classList.add("cell");
+            if (cell) cellDiv.classList.add("taken");
+            cellDiv.textContent = cell;
+            cellDiv.dataset.index = index;
+            board.appendChild(cellDiv);
+        });
+
+        document.querySelectorAll(".cell").forEach(cell => {
+            cell.addEventListener("click", handleCellClick);
+        });
+    }
+
+    function updateScore() {
+        humanScoreEl.textContent = `You: ${humanScore}`;
+        aiScoreEl.textContent = `AI: ${aiScore}`;
+    }
+
+    function resetGame() {
+        gameBoard = Array(9).fill(null);
+        message.textContent = "";
+        board.classList.remove("disabled");
+        renderBoard();
+    }
+
+    restartButton.addEventListener("click", resetGame);
+
+    renderBoard();
+
+    const form = document.getElementById('contact-form');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault(); // Prevent default form submission
+
+  // Validate form inputs
+  const formData = new FormData(form);
+  const object = Object.fromEntries(formData);
+  const json = JSON.stringify(object);
+
+  // Display "Please wait" message
+  result.style.display = "block";
+  result.innerHTML = "Please wait...";
+
+  // Send form data to Web3Forms
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: json,
+  })
+    .then(async (response) => {
+      let json = await response.json();
+      if (response.status === 200) {
+        // Success message
+        result.innerHTML = json.message;
+        result.style.color = "green";
+      } else {
+        // Error message
+        result.innerHTML = json.message;
+        result.style.color = "red";
+      }
+    })
+    .catch((error) => {
+      // Network error
+      result.innerHTML = "Something went wrong!";
+      result.style.color = "red";
+      console.error(error);
+    })
+    .then(function () {
+      // Reset form after submission
+      form.reset();
+      setTimeout(() => {
+        result.style.display = "none";
+      }, 5000); // Hide result message after 5 seconds
+    });
+});
+</script> 
+</body>
+</html>
