@@ -98,6 +98,20 @@
     .toggle-btn:hover {
       color: var(--accent-color);
     }
+
+    #guest-btn {
+      background: none;
+      color: var(--primary-color);
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      margin-top: 10px;
+      transition: color 0.3s;
+    }
+
+    #guest-btn:hover {
+      color: var(--accent-color);
+    }
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -117,9 +131,9 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Redirect if already logged in
+    // Redirect if already logged in or in guest mode
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user || localStorage.getItem("guestMode") === "true") {
         window.location.href = "index.html"; // Redirect to main page
       }
     });
@@ -138,6 +152,13 @@
           alert(error.message); // Show error message
         });
     });
+
+    // Enable Guest Mode
+    document.getElementById("guest-btn").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.setItem("guestMode", "true"); // Set guest mode
+      window.location.href = "index.html"; // Redirect to main page
+    });
   </script>
 </head>
 <body>
@@ -148,6 +169,8 @@
     <input type="password" id="login-password" placeholder="Password" required>
     <button id="login-btn">Login</button>
     <p>Don't have an account? <a href="signup.html" class="toggle-btn">Sign Up</a></p>
+    <!-- Guest Mode Button -->
+    <button id="guest-btn" class="toggle-btn">Continue as Guest</button>
   </div>
 </body>
 </html>
