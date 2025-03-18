@@ -206,7 +206,14 @@ section.active {
 #game {
   text-align: center;
 }
+#guest-link {
+  color: #666; /* Gray color for guest link */
+  font-style: italic;
+}
 
+#guest-link:hover {
+  background-color: #f0f0f0; /* Light hover effect */
+}
 .scorecard {
   display: flex;
   justify-content: space-around;
@@ -404,12 +411,14 @@ footer {
         <span id="account-text">Account</span>
         <span>▼</span>
       </button>
-      <div id="account-menu" class="dropdown-content">
-        <a href="#" id="login-link">Login</a>
-        <a href="#" id="signup-link">Signup</a>
-        <a href="#" id="profile-link" style="display: none;">View Account</a>
-        <a href="#" id="logout-link" style="display: none;">Logout</a>
-      </div>
+    <!-- Inside the account dropdown menu -->
+<div id="account-menu" class="dropdown-content">
+  <a href="#" id="login-link">Login</a>
+  <a href="#" id="signup-link">Signup</a>
+  <a href="#" id="guest-link">Continue as Guest</a> <!-- Guest Mode Option -->
+  <a href="#" id="profile-link" style="display: none;">View Account</a>
+  <a href="#" id="logout-link" style="display: none;">Logout</a>
+</div>
     </div>
   </header>
 
@@ -849,6 +858,64 @@ form.addEventListener('submit', function (e) {
         result.style.display = "none";
       }, 5000); // Hide result message after 5 seconds
     });
+});
+    // Check if user is in guest mode
+function isGuestMode() {
+  return localStorage.getItem("guestMode") === "true";
+}
+
+// Enable Guest Mode
+document.getElementById("guest-link").addEventListener("click", (e) => {
+  e.preventDefault();
+  localStorage.setItem("guestMode", "true"); // Set guest mode
+  window.location.href = "index.html"; // Redirect to main page
+});
+
+// Check authentication state
+onAuthStateChanged(auth, (user) => {
+  const accountText = document.getElementById("account-text");
+  const loginLink = document.getElementById("login-link");
+  const signupLink = document.getElementById("signup-link");
+  const guestLink = document.getElementById("guest-link");
+  const profileLink = document.getElementById("profile-link");
+  const logoutLink = document.getElementById("logout-link");
+
+  if (user) {
+    // User is signed in
+    accountText.innerText = user.email;
+    loginLink.style.display = "none";
+    signupLink.style.display = "none";
+    guestLink.style.display = "none";
+    profileLink.style.display = "block";
+    logoutLink.style.display = "block";
+  } else if (isGuestMode()) {
+    // User is in guest mode
+    accountText.innerText = "Guest";
+    loginLink.style.display = "none";
+    signupLink.style.display = "none";
+    guestLink.style.display = "none";
+    profileLink.style.display = "none";
+    logoutLink.style.display = "block"; // Allow guest to "logout"
+  } else {
+    // User is not logged in and not in guest mode
+    accountText.innerText = "Account";
+    loginLink.style.display = "block";
+    signupLink.style.display = "block";
+    guestLink.style.display = "block";
+    profileLink.style.display = "none";
+    logoutLink.style.display = "none";
+  }
+});
+
+// Logout Function (for both authenticated users and guests)
+document.getElementById("logout-link")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isGuestMode()) {
+    localStorage.removeItem("guestMode"); // Clear guest mode
+  } else {
+    signOut(auth); // Sign out authenticated user
+  }
+  window.location.href = "index.html"; // Redirect to homepage
 });
 </script> 
 </body>
