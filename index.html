@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCalc - Academic Tools</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <style>
+         footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #3498db;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #3498db;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 24px; /* Slightly larger */
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            margin-right: 10px;
+        }
+
+        .social-links a:hover {
+            color: white;
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        /* Ensure footer columns have proper spacing */
+        .footer-column {
+            padding: 0 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #3498db;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                margin-bottom: 30px;
+            }
+        }
+    
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header and Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Main Navigation (Sidebar) */
+        .main-nav {
+            width: 200px;
+            background-color: #34495e;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+        }
+
+        .main-nav li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2c3e50;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 200px;
+            padding: 40px;
+            background-color: #ecf0f1;
+            min-height: 100vh;
+            display: none; /* Hidden until auth */
+        }
+
+        /* Section Styles */
+        .section-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 0;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Calculator Section */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* Preparation Section */
+        .subject-section {
+            margin-bottom: 30px;
+        }
+
+        .subject-section h2 {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .subject-section ul {
+            list-style: none;
+            display: none;
+            padding-left: 20px;
+        }
+
+        .subject-section ul.show {
+            display: block;
+        }
+
+        .subject-section li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .subject-section a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .subject-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Practice Test Section */
+        .practice-test-section {
+            text-align: center;
+        }
+
+        .test-card {
+            background-color: #3498db;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 400px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-card:hover {
+            background-color: #2980b9;
+            transform: translateY(-5px);
+        }
+
+        /* Games Section */
+        .game-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .game-option {
+            padding: 15px 25px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-option:hover {
+            background-color: #2980b9;
+        }
+
+        .game-container {
+            display: none;
+            text-align: center;
+        }
+
+        .game-container.active {
+            display: block;
+        }
+
+        /* Tic Tac Toe Game */
+        .tic-tac-toe {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+            justify-content: center;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .game-status {
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+        }
+
+        /* Rock Paper Scissors Game */
+        .rps-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .rps-option {
+            width: 100px;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .rps-option:hover {
+            transform: scale(1.1);
+        }
+
+        .rps-result {
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        /* Contact Section */
+        .contact-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 150px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Active Navigation Item */
+        .active-nav {
+            background-color: #3498db;
+        }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .auth-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .auth-tab.active {
+            border-bottom: 3px solid #3498db;
+            font-weight: bold;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auth-form input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .auth-form button {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .auth-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: #3498db;
+            cursor: pointer;
+        }
+
+        .auth-providers {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .auth-provider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .auth-provider:hover {
+            background-color: #f5f5f5;
+        }
+
+        .guest-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .guest-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .nav-links, .auth-links {
+                margin-top: 15px;
+            }
+
+            .main-nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-nav ul {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .main-nav li {
+                flex: 1 0 auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .game-selection, .rps-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        .test-selector {
+            margin-bottom: 20px;
+        }
+
+        .test-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="login-tab">Login</div>
+                <div class="auth-tab" id="signup-tab">Sign Up</div>
+            </div>
+
+            <div class="auth-form" id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button id="login-btn">Login</button>
+                <div class="error-message" id="login-error"></div>
+            </div>
+
+            <div class="auth-form" id="signup-form" style="display: none;">
+                <input type="text" id="signup-name" placeholder="Full Name">
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button id="signup-btn">Sign Up</button>
+                <div class="error-message" id="signup-error"></div>
+            </div>
+
+            <div class="auth-footer">
+                <div id="toggle-auth">Don't have an account? <a>Sign Up</a></div>
+            </div>
+
+            <div class="auth-providers">
+                <div class="auth-provider" id="google-auth">
+                  <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" style="width: 20px; height: 20px; margin-right: 10px;">
+                  Sign in with Google
+                  
+                </div>
+            </div>
+
+            <button class="guest-btn" id="guest-btn">Continue as Guest</button>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="logo">EduCalc</div>
+        <div class="nav-links">
+            <a href="#" class="nav-calculator">Calculator</a>
+            <a href="#" class="nav-preparation">Preparation</a>
+            <a href="#" class="nav-practice-test">Practice Test</a>
+            <a href="#" class="nav-games">Games</a>
+            <a href="#" class="nav-contact">Contact</a>
+        </div>
+        <div class="auth-links" id="auth-links">
+            <a href="#" id="login-link">Login</a>
+            <a href="#" id="signup-link">Sign Up</a>
+        </div>
+        <div class="user-info" id="user-info" style="display: none;">
+            <img class="user-avatar" id="user-avatar" src="" alt="User avatar">
+            <span id="user-name"></span>
+            <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Navigation (Sidebar) -->
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#" class="nav-home">Home</a></li>
+            <li><a href="#" class="nav-calculator">Calculator</a></li>
+            <li><a href="#" class="nav-preparation">Preparation</a></li>
+            <li><a href="#" class="nav-practice-test">Practice Tests</a></li>
+            <li><a href="#" class="nav-games">Games</a></li>
+            <li><a href="#" class="nav-contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Calculate Your Academic Score Aggregates</h1>
+            <p>A simple tool to calculate your ECAT, NET, and NTS scores with resources to help you prepare better.</p>
+            <a href="#" class="cta-button nav-calculator">Get Started</a>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="section-container" id="calculator">
+            <h2>Score Calculator</h2>
+            <div class="test-selector">
+                <label for="test-type">Select Test Type:</label>
+                <select id="test-type">
+                    <option value="nts">NTS</option>
+                    <option value="net">NET</option>
+                    <option value="ecat">ECAT</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="test-score">Test Score:</label>
+                <input type="number" id="test-score"  placeholder="Enter your test score">
+            </div>
+
+            <div class="input-group">
+                <label for="fsc-marks">First year Marks (out of 570):</label>
+                <input type="number" id="fsc-marks" min="0" max="570" placeholder="Enter your FSc marks">
+            </div>
+
+            <div class="input-group">
+                <label for="matric-marks">Matric Marks (out of 1100):</label>
+                <input type="number" id="matric-marks" min="0" max="1100" placeholder="Enter your Matric marks">
+            </div>
+
+            <button class="calculate-btn cta-button" id="calculate-btn">Calculate Aggregate</button>
+
+            <div class="result" id="result">
+                <h3>Your Aggregate Score:</h3>
+                <p id="aggregate-score">0%</p>
+            </div>
+        </section>
+
+        <!-- Preparation Section -->
+        <section class="section-container" id="preparation">
+            <h2>Preparation Materials</h2>
+            
+            <div class="subject-section">
+                <h2 onclick="toggleList('physicsList')">Physics</h2>
+                <ul id="physicsList">
+                    <li><a href="physics.pdf" target="_blank">Physics</a></li>
+                    <li><a href="Worksheet-01.pdf" target="_blank">Worksheet-01</a></li>
+                    <li><a href="Worksheet-02.pdf" target="_blank">Worksheet-02</a></li>
+                    <li><a href="Worksheet-03.pdf" target="_blank">Worksheet-03</a></li>
+                    <li><a href="Worksheet-04.pdf" target="_blank">Worksheet-04</a></li>
+                    <li><a href="Worksheet-05.pdf" target="_blank">Worksheet-05</a></li>
+                    <li><a href="Worksheet-06.pdf" target="_blank">Worksheet-06</a></li>
+                    <li><a href="Worksheet-07.pdf" target="_blank">Worksheet-07</a></li>
+                    <li><a href="Worksheet-08.pdf" target="_blank">Worksheet-08</a></li>
+                    <li><a href="Worksheet-09.pdf" target="_blank">Worksheet-09</a></li>
+                    <li><a href="Worksheet-10.pdf" target="_blank">Worksheet-10</a></li>
+                    <li><a href="Worksheet-11.pdf" target="_blank">Worksheet-11</a></li>
+                    <li><a href="Worksheet-12.pdf" target="_blank">Worksheet-12</a></li>
+                </ul>
+            </div>
+
+            <div class="subject-section">
+                <h2 onclick="toggleList('chemistryList')">Chemistry</h2>
+                <ul id="chemistryList">
+                    <li><a href="chemistry.pdf" target="_blank">Chemistry</a></li>
+                    <li><a href="Worksheet-01c.pdf" target="_blank">Worksheet-01</a></li>
+                    <li><a href="Worksheet-02c.pdf" target="_blank">Worksheet-02</a></li>
+                    <li><a href="Worksheet-03c.pdf" target="_blank">Worksheet-03</a></li>
+                    <li><a href="Worksheet-04c.pdf" target="_blank">Worksheet-04</a></li>
+                    <li><a href="Worksheet-05c.pdf" target="_blank">Worksheet-05</a></li>
+                    <li><a href="Worksheet-06c.pdf" target="_blank">Worksheet-06</a></li>
+                    <li><a href="Worksheet-07c.pdf" target="_blank">Worksheet-07</a></li>
+                    <li><a href="Worksheet-08c.pdf" target="_blank">Worksheet-08</a></li>
+                    <li><a href="Worksheet-09c.pdf" target="_blank">Worksheet-09</a></li>
+                    <li><a href="Worksheet-10c.pdf" target="_blank">Worksheet-10</a></li>
+                    <li><a href="Worksheet-11c.pdf" target="_blank">Worksheet-11</a></li>
+                    <li><a href="Worksheet-12c.pdf" target="_blank">Worksheet-12</a></li>
+                    <li><a href="Worksheet-13c.pdf" target="_blank">Worksheet-13</a></li>
+                    <li><a href="Worksheet-14c.pdf" target="_blank">Worksheet-14</a></li>
+                </ul>
+            </div>
+
+            <div class="subject-section">
+                <h2 onclick="toggleList('englishList')">English</h2>
+                <ul id="englishList">
+                    <li><a href="english.pdf" target="_blank">English</a></li>
+                    <li><a href="Worksheet-01E.pdf" target="_blank">Worksheet-01</a></li>
+                    <li><a href="Worksheet-02E.pdf" target="_blank">Worksheet-02</a></li>
+                    <li><a href="Worksheet-03E.pdf" target="_blank">Worksheet-03</a></li>
+                    <li><a href="Worksheet-04E.pdf" target="_blank">Worksheet-04</a></li>
+                    <li><a href="Worksheet-05E.pdf" target="_blank">Worksheet-05</a></li>
+                    <li><a href="Worksheet-06E.pdf" target="_blank">Worksheet-06</a></li>
+                    <li><a href="Worksheet-07E.pdf" target="_blank">Worksheet-07</a></li>
+                    <li><a href="Worksheet-08E.pdf" target="_blank">Worksheet-08</a></li>
+                    <li><a href="Worksheet-09E.pdf" target="_blank">Worksheet-09</a></li>
+                    <li><a href="Worksheet-10E.pdf" target="_blank">Worksheet-10</a></li>
+                    <li><a href="Worksheet-11E.pdf" target="_blank">Worksheet-11</a></li>
+                    <li><a href="Worksheet-12E.pdf" target="_blank">Worksheet-12</a></li>
+                    <li><a href="Worksheet-13E.pdf" target="_blank">Worksheet-13</a></li>
+                    <li><a href="Worksheet-14E.pdf" target="_blank">Worksheet-14</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Practice Test Section -->
+        <section class="section-container practice-test-section" id="practice-test">
+            <h2>Practice Tests</h2>
+            <p>Test your knowledge with our comprehensive practice tests</p>
+            
+            <div class="test-card" onclick="window.open('https://ecat.absd.site', '_blank')">
+                <h3>ECAT Practice Test</h3>
+                <p>Click to start your engineering college admission test practice</p>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section class="section-container" id="games">
+            <h2>Games</h2>
+            <p>Have fun with these educational games</p>
+            
+            <div class="game-selection">
+                <div class="game-option" onclick="showGame('tic-tac-toe')">Tic Tac Toe</div>
+                <div class="game-option" onclick="showGame('rock-paper-scissors')">Rock Paper Scissors</div>
+            </div>
+            
+            <!-- Tic Tac Toe Game -->
+            <div class="game-container" id="tic-tac-toe-game">
+                <h3>Tic Tac Toe</h3>
+                <div class="game-status" id="tic-tac-toe-status">Player X's turn</div>
+                <div class="tic-tac-toe" id="tic-tac-toe-board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+                <button class="reset-btn cta-button" onclick="resetTicTacToe()">Reset Game</button>
+            </div>
+        
+            <div class="game-container" id="rock-paper-scissors-game">
+                <h3>Rock Paper Scissors</h3>
+                <div class="rps-result" id="rps-result">Choose your weapon!</div>
+                <div class="rps-options">
+                    <div class="rps-option" onclick="playGame('rock')">✊</div>
+                    <div class="rps-option" onclick="playGame('paper')">✋</div>
+                    <div class="rps-option" onclick="playGame('scissors')">✌️</div>
+                </div>
+                <div id="rps-scores">
+                    <p>Player: <span id="player-score">0</span> | Computer: <span id="computer-score">0</span></p>
+                </div>
+                <button class="reset-btn cta-button" onclick="resetRPS()">Reset Scores</button>
+            </div>
+        </section>
+
+       
+        <section class="section-container" id="contact">
+            <h2>Contact Us</h2>
+            <p>Have questions or feedback? Send us a message!</p>
+            
+            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="ed56c54d-eb19-49ae-b051-fbe97b2d8a7f">
+                
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+        <footer>
+          <div class="footer-container">
+              <div class="footer-column">
+                  <h3>About EduCalc</h3>
+                  <p>EduCalc helps students calculate their academic aggregates and provides preparation resources for ECAT, NET, and NTS exams.</p>
+                  <div class="social-links">
+                      <a href="https://instagram.com/imabd73" target="_blank" aria-label="Instagram">
+                          <i class="fab fa-instagram"></i>
+                      </a>
+                      <a href="#" aria-label="Facebook">
+                          <i class="fab fa-facebook"></i>
+                      </a>
+                      <a href="#" aria-label="Twitter">
+                          <i class="fab fa-twitter"></i>
+                      </a>
+                  </div>
+              </div>
+              
+              <div class="footer-column">
+                  <h3>Quick Links</h3>
+                  <ul>
+                      <li><a href="#" class="nav-home">Home</a></li>
+                      <li><a href="#" class="nav-calculator">Calculator</a></li>
+                      <li><a href="#" class="nav-preparation">Preparation</a></li>
+                      <li><a href="#" class="nav-practice-test">Practice Tests</a></li>
+                  </ul>
+              </div>
+              
+              <div class="footer-column">
+                  <h3>Contact Info</h3>
+                  <ul>
+                      <li><i class="fas fa-envelope"></i>aiuser527@gmail.com</li>
+                      <li><i class="fas fa-phone"></i> +92 3350806140</li>
+                      <li><i class="fas fa-map-marker-alt"></i> Khanewal, Pakistan</li>
+                  </ul>
+              </div>
+          </div>
+          
+          <div class="footer-bottom">
+              <p>&copy; 2025 EduCalc. All Rights Reserved.</p>
+          </div>
+      </footer>
+    </main>
+
+    <script>
+        // Firebase configuration - Replace with your actual config
+        const firebaseConfig = {
+  apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+  authDomain: "abdullah-bb8ab.firebaseapp.com",
+  projectId: "abdullah-bb8ab",
+  storageBucket: "abdullah-bb8ab.appspot.com",
+  messagingSenderId: "286504008164",
+  appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+};
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // DOM elements
+        const authModal = document.getElementById('auth-modal');
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const toggleAuth = document.getElementById('toggle-auth');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const googleAuth = document.getElementById('google-auth');
+        const guestBtn = document.getElementById('guest-btn');
+        const loginLink = document.getElementById('login-link');
+        const signupLink = document.getElementById('signup-link');
+        const authLinks = document.getElementById('auth-links');
+        const userInfo = document.getElementById('user-info');
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+        const mainContent = document.querySelector('.main-content');
+
+        // Show auth modal
+        function showAuthModal() {
+            authModal.style.display = 'flex';
+            showLoginForm();
+        }
+
+        // Hide auth modal
+        function hideAuthModal() {
+            authModal.style.display = 'none';
+        }
+
+        // Show login form
+        function showLoginForm() {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.style.display = 'flex';
+            signupForm.style.display = 'none';
+            toggleAuth.innerHTML = 'Don\'t have an account? <a>Sign Up</a>';
+        }
+
+        // Show signup form
+        function showSignupForm() {
+            loginTab.classList.remove('active');
+            signupTab.classList.add('active');
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'flex';
+            toggleAuth.innerHTML = 'Already have an account? <a>Login</a>';
+        }
+
+        // Toggle between login and signup
+        toggleAuth.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                if (loginForm.style.display === 'none') {
+                    showLoginForm();
+                } else {
+                    showSignupForm();
+                }
+            }
+        });
+
+        // Tab switching
+        loginTab.addEventListener('click', showLoginForm);
+        signupTab.addEventListener('click', showSignupForm);
+
+        // Login with email/password
+        loginBtn.addEventListener('click', () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    hideAuthModal();
+                    updateUI(userCredential.user);
+                })
+                .catch((error) => {
+                    loginError.textContent = error.message;
+                });
+        });
+
+        // Sign up with email/password
+        signupBtn.addEventListener('click', () => {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Update user profile with name
+                    return userCredential.user.updateProfile({
+                        displayName: name
+                    });
+                })
+                .then(() => {
+                    hideAuthModal();
+                    updateUI(auth.currentUser);
+                })
+                .catch((error) => {
+                    signupError.textContent = error.message;
+                });
+        });
+
+        // Sign in with Google
+        googleAuth.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    hideAuthModal();
+                    updateUI(result.user);
+                })
+                .catch((error) => {
+                    loginError.textContent = error.message;
+                });
+        });
+
+        // Continue as guest
+        guestBtn.addEventListener('click', () => {
+            hideAuthModal();
+            localStorage.setItem('guestMode', 'true');
+            mainContent.style.display = 'block';
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                localStorage.removeItem('guestMode');
+                updateUI(null);
+            });
+        });
+
+        // Show auth modal when clicking login/signup links
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal();
+            showLoginForm();
+        });
+
+        signupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthModal();
+            showSignupForm();
+        });
+
+        // Update UI based on auth state
+        function updateUI(user) {
+            if (user) {
+                // User is signed in
+                authLinks.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Set user info
+                userName.textContent = user.displayName || user.email;
+                
+                if (user.photoURL) {
+                    userAvatar.src = user.photoURL;
+                } else {
+                    // Default avatar if no photo
+                    userAvatar.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                }
+                
+                // Show main content
+                mainContent.style.display = 'block';
+            } else {
+                // User is signed out
+                authLinks.style.display = 'flex';
+                userInfo.style.display = 'none';
+                
+                // Check if in guest mode
+                if (localStorage.getItem('guestMode') !== 'true') {
+                    // Show auth modal if not in guest mode
+                    showAuthModal();
+                    // Hide main content until authenticated
+                    mainContent.style.display = 'none';
+                } else {
+                    // Show main content for guest
+                    mainContent.style.display = 'block';
+                }
+            }
+        }
+
+        // Check auth state on page load
+        auth.onAuthStateChanged((user) => {
+            updateUI(user);
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation elements
+            const heroSection = document.querySelector('.hero');
+            const calculatorSection = document.getElementById('calculator');
+            const preparationSection = document.getElementById('preparation');
+            const practiceTestSection = document.getElementById('practice-test');
+            const gamesSection = document.getElementById('games');
+            const contactSection = document.getElementById('contact');
+            
+            // Navigation links
+            const navLinks = {
+                home: document.querySelector('.nav-home'),
+                calculator: document.querySelectorAll('.nav-calculator'),
+                preparation: document.querySelectorAll('.nav-preparation'),
+                practiceTest: document.querySelectorAll('.nav-practice-test'),
+                games: document.querySelectorAll('.nav-games'),
+                contact: document.querySelectorAll('.nav-contact')
+            };
+
+            // Initialize games
+            initTicTacToe();
+            initRockPaperScissors();
+            
+            // Show calculator section
+            function showCalculator() {
+                hideAllSections();
+                calculatorSection.classList.add('active-section');
+                updateActiveNav(navLinks.calculator);
+            }
+
+            // Show preparation section
+            function showPreparation() {
+                hideAllSections();
+                preparationSection.classList.add('active-section');
+                updateActiveNav(navLinks.preparation);
+            }
+
+            // Show practice test section
+            function showPracticeTest() {
+                hideAllSections();
+                practiceTestSection.classList.add('active-section');
+                updateActiveNav(navLinks.practiceTest);
+            }
+
+            // Show games section
+            function showGames() {
+                hideAllSections();
+                gamesSection.classList.add('active-section');
+                updateActiveNav(navLinks.games);
+            }
+
+            // Show contact section
+            function showContact() {
+                hideAllSections();
+                contactSection.classList.add('active-section');
+                updateActiveNav(navLinks.contact);
+            }
+
+            // Show home section
+            function showHome() {
+                hideAllSections();
+                heroSection.style.display = 'block';
+                updateActiveNav(navLinks.home);
+            }
+
+            // Hide all sections
+            function hideAllSections() {
+                heroSection.style.display = 'none';
+                document.querySelectorAll('.section-container').forEach(section => {
+                    section.classList.remove('active-section');
+                });
+            }
+
+            // Update active navigation
+            function updateActiveNav(links) {
+                document.querySelectorAll('.main-nav a, .top-nav a').forEach(link => {
+                    link.classList.remove('active-nav');
+                });
+                
+                if (links instanceof NodeList || Array.isArray(links)) {
+                    links.forEach(link => link.classList.add('active-nav'));
+                } else {
+                    links.classList.add('active-nav');
+                }
+            }
+
+            // Event listeners for navigation
+            navLinks.calculator.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showCalculator();
+                });
+            });
+
+            navLinks.preparation.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPreparation();
+                });
+            });
+
+            navLinks.practiceTest.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showPracticeTest();
+                });
+            });
+
+            navLinks.games.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showGames();
+                });
+            });
+
+            navLinks.contact.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showContact();
+                });
+            });
+
+            navLinks.home.addEventListener('click', function(e) {
+                e.preventDefault();
+                showHome();
+            });
+
+            // Calculator functionality
+            document.getElementById('calculate-btn').addEventListener('click', function() {
+                const testType = document.getElementById('test-type').value;
+                const testScore = parseFloat(document.getElementById('test-score').value) || 0;
+                const fscMarks = parseFloat(document.getElementById('fsc-marks').value) || 0;
+                const matricMarks = parseFloat(document.getElementById('matric-marks').value) || 0;
+
+                let aggregate = 0;
+
+                switch(testType) {
+                    case 'nts':
+                        aggregate = (testScore* 50/100 ) + 
+                                  (fscMarks*40 / 570 ) + 
+                                  (matricMarks*10 / 1100 );
+                        break;
+                    case 'net':
+                        aggregate = (testScore*75/200) + 
+                                  (fscMarks*15 / 570) + 
+                                  (matricMarks *10/ 1100 );
+                        break;
+                    case 'ecat':
+                        aggregate = (testScore*33/400) + 
+                                  (fscMarks *50/ 570 ) + 
+                                  (matricMarks *17/ 1100);
+                        break;
+                }
+
+                document.getElementById('aggregate-score').textContent = aggregate.toFixed(2) + '%';
+                document.getElementById('result').style.display = 'block';
+            });
+
+            // Initialize with home view
+            showHome();
+        });
+
+        // Toggle subject lists
+        function toggleList(listId) {
+            const list = document.getElementById(listId);
+            list.classList.toggle('show');
+        }
+
+        // Games functionality
+        function showGame(gameId) {
+            document.querySelectorAll('.game-container').forEach(game => {
+                game.classList.remove('active');
+            });
+            document.getElementById(`${gameId}-game`).classList.add('active');
+        }
+
+        // Tic Tac Toe Game
+        let currentPlayer = 'X';
+        let gameState = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+
+        function initTicTacToe() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.addEventListener('click', handleCellClick);
+            });
+        }
+
+        function handleCellClick(e) {
+            const clickedCell = e.target;
+            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+
+            if (gameState[clickedCellIndex] !== '' || !gameActive) return;
+
+            gameState[clickedCellIndex] = currentPlayer;
+            clickedCell.textContent = currentPlayer;
+            
+            if (checkWin()) {
+                document.getElementById('tic-tac-toe-status').textContent = `Player ${currentPlayer} wins!`;
+                gameActive = false;
+                return;
+            }
+            
+            if (checkDraw()) {
+                document.getElementById('tic-tac-toe-status').textContent = 'Game ended in a draw!';
+                gameActive = false;
+                return;
+            }
+            
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('tic-tac-toe-status').textContent = `Player ${currentPlayer}'s turn`;
+        }
+
+        function checkWin() {
+            const winConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                [0, 4, 8], [2, 4, 6]             // diagonals
+            ];
+
+            return winConditions.some(condition => {
+                return condition.every(index => {
+                    return gameState[index] === currentPlayer;
+                });
+            });
+        }
+
+        function checkDraw() {
+            return gameState.every(cell => cell !== '');
+        }
+
+        function resetTicTacToe() {
+            currentPlayer = 'X';
+            gameState = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.textContent = '';
+            });
+            
+            document.getElementById('tic-tac-toe-status').textContent = 'Player X\'s turn';
+        }
+
+        // Rock Paper Scissors Game
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function initRockPaperScissors() {
+            // Initialization if needed
+        }
+
+        function playGame(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            
+            let result;
+            
+            if (playerChoice === computerChoice) {
+                result = "It's a tie!";
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = "You win!";
+                playerScore++;
+            } else {
+                result = "Computer wins!";
+                computerScore++;
+            }
+            
+            document.getElementById('rps-result').textContent = 
+                `You chose ${playerChoice}, computer chose ${computerChoice}. ${result}`;
+            
+            document.getElementById('player-score').textContent = playerScore;
+            document.getElementById('computer-score').textContent = computerScore;
+        }
+
+        function resetRPS() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('player-score').textContent = '0';
+            document.getElementById('computer-score').textContent = '0';
+            document.getElementById('rps-result').textContent = 'Choose your weapon!';
+        }
+    </script>
+</body>
+</html>
