@@ -7,9 +7,109 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #3498db;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #3498db;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            margin-right: 10px;
+        }
+
+        .social-links a:hover {
+            color: white;
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .footer-column {
+            padding: 0 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #3498db;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                margin-bottom: 30px;
+            }
+        }
+    
         /* Reset and Base Styles */
         * {
             margin: 0;
@@ -21,9 +121,6 @@
         body {
             background-color: #f5f5f5;
             color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         /* Header and Top Navigation */
@@ -34,9 +131,6 @@
             padding: 15px 30px;
             background-color: #2c3e50;
             color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
@@ -53,11 +147,6 @@
             color: white;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #3498db;
         }
 
         .auth-links {
@@ -69,18 +158,38 @@
             color: white;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
         }
 
-        .auth-links a:hover {
-            color: #3498db;
+        /* Main Navigation (Sidebar) */
+        .main-nav {
+            width: 200px;
+            background-color: #34495e;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+        }
+
+        .main-nav li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2c3e50;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
         }
 
         /* Main Content */
         .main-content {
-            flex: 1;
+            margin-left: 200px;
             padding: 40px;
             background-color: #ecf0f1;
+            min-height: 100vh;
             display: none;
         }
 
@@ -289,6 +398,29 @@
             margin-top: 20px;
         }
 
+        .game-mode-selector {
+            margin-bottom: 20px;
+        }
+
+        .game-mode-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-mode-btn:hover {
+            background-color: #34495e;
+        }
+
+        .game-mode-btn.active {
+            background-color: #3498db;
+        }
+
         /* Rock Paper Scissors Game */
         .rps-options {
             display: flex;
@@ -366,8 +498,7 @@
 
         /* Active Navigation Item */
         .active-nav {
-            color: #3498db !important;
-            font-weight: bold;
+            background-color: #3498db;
         }
 
         /* Auth Modal Styles */
@@ -403,13 +534,11 @@
             padding: 10px 20px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s;
         }
 
         .auth-tab.active {
             border-bottom: 3px solid #3498db;
             font-weight: bold;
-            color: #3498db;
         }
 
         .auth-form {
@@ -433,7 +562,6 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .auth-form button:hover {
@@ -448,11 +576,6 @@
         .auth-footer a {
             color: #3498db;
             cursor: pointer;
-            text-decoration: none;
-        }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
         }
 
         .auth-providers {
@@ -471,7 +594,6 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
         .auth-provider:hover {
@@ -488,7 +610,6 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .guest-btn:hover {
@@ -497,12 +618,6 @@
 
         .error-message {
             color: #e74c3c;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .success-message {
-            color: #2ecc71;
             margin-top: 10px;
             text-align: center;
         }
@@ -517,7 +632,6 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            object-fit: cover;
         }
 
         .logout-btn {
@@ -526,155 +640,83 @@
             color: white;
             cursor: pointer;
             font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .logout-btn:hover {
-            color: #3498db;
-        }
-
-        /* Reset Password Modal */
-        .reset-password-form {
-            display: none;
-        }
-
-        .back-to-login {
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-            color: #3498db;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .back-to-login:hover {
-            text-decoration: underline;
-        }
-
-        /* Phone Authentication */
-        .phone-auth-form {
-            display: none;
-        }
-
-        .recaptcha-container {
-            margin: 15px 0;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 40px 0;
-            margin-top: 40px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: #3498db;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul li a {
-            color: #ecf0f1;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-column ul li a:hover {
-            color: #3498db;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 20px;
-            transition: color 0.3s;
-        }
-
-        .social-links a:hover {
-            color: #3498db;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .privacy-link {
-            color: #3498db;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        .privacy-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-nav {
+                width: 180px;
+            }
+            .main-content {
+                margin-left: 180px;
+                padding: 30px;
+            }
+            .logo {
+                font-size: 22px;
+            }
+            .nav-links a, .auth-links a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .main-nav {
+                width: 160px;
+                padding-top: 15px;
+            }
+            .main-content {
+                margin-left: 160px;
+                padding: 25px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .section-container {
+                padding: 25px;
+            }
+        }
+
         @media (max-width: 768px) {
             .top-nav {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
+                flex-direction: row;
+                padding: 12px 20px;
             }
             
-            .nav-links {
+            .nav-links, .auth-links {
+                gap: 15px;
+                margin-top: 0;
+            }
+            
+            .main-nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding-top: 10px;
+            }
+            
+            .main-nav ul {
+                display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
             }
             
+            .main-nav li {
+                flex: 1 0 auto;
+                padding: 12px 15px;
+                text-align: center;
+                border-bottom: none;
+                border-right: 1px solid #2c3e50;
+            }
+            
+            .main-nav li:last-child {
+                border-right: none;
+            }
+            
             .main-content {
+                margin-left: 0;
                 padding: 20px;
             }
             
@@ -687,8 +729,14 @@
             }
             
             .game-selection {
-                flex-direction: column;
-                align-items: center;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .rps-options {
+                flex-direction: row;
+                flex-wrap: wrap;
             }
             
             .tic-tac-toe {
@@ -701,28 +749,32 @@
                 height: 80px;
                 font-size: 40px;
             }
-            
-            .rps-options {
-                flex-wrap: wrap;
-            }
-            
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .footer-column {
-                margin-bottom: 20px;
-            }
         }
 
         @media (max-width: 480px) {
+            .top-nav {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .nav-links, .auth-links {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .main-nav li {
+                flex: 1 0 33%;
+                padding: 10px 5px;
+                font-size: 14px;
+            }
+            
             .hero h1 {
                 font-size: 24px;
             }
             
             .hero p {
-                font-size: 16px;
+                font-size: 15px;
             }
             
             .cta-button {
@@ -746,13 +798,7 @@
                 height: 80px;
                 font-size: 36px;
             }
-            
-            .auth-container {
-                padding: 20px;
-                margin: 0 15px;
-            }
         }
-
         .test-selector {
             margin-bottom: 20px;
         }
@@ -773,47 +819,21 @@
             <div class="auth-tabs">
                 <div class="auth-tab active" id="login-tab">Login</div>
                 <div class="auth-tab" id="signup-tab">Sign Up</div>
-                <div class="auth-tab" id="phone-tab">Phone</div>
             </div>
 
-            <!-- Login Form -->
             <div class="auth-form" id="login-form">
                 <input type="email" id="login-email" placeholder="Email" required>
                 <input type="password" id="login-password" placeholder="Password" required>
                 <button id="login-btn">Login</button>
                 <div class="error-message" id="login-error"></div>
-                <div class="success-message" id="login-success"></div>
-                <a href="#" id="forgot-password-link" class="auth-footer">Forgot password?</a>
             </div>
 
-            <!-- Signup Form -->
             <div class="auth-form" id="signup-form" style="display: none;">
                 <input type="text" id="signup-name" placeholder="Full Name">
                 <input type="email" id="signup-email" placeholder="Email" required>
                 <input type="password" id="signup-password" placeholder="Password" required>
                 <button id="signup-btn">Sign Up</button>
                 <div class="error-message" id="signup-error"></div>
-                <div class="success-message" id="signup-success"></div>
-            </div>
-
-            <!-- Phone Auth Form -->
-            <div class="auth-form phone-auth-form" id="phone-auth-form" style="display: none;">
-                <input type="tel" id="phone-number" placeholder="Phone number (with country code)" required>
-                <div id="recaptcha-container" class="recaptcha-container"></div>
-                <button id="send-otp-btn">Send OTP</button>
-                <input type="text" id="verification-code" placeholder="Verification code" style="display: none;">
-                <button id="verify-otp-btn" style="display: none;">Verify OTP</button>
-                <div class="error-message" id="phone-error"></div>
-                <div class="success-message" id="phone-success"></div>
-            </div>
-
-            <!-- Reset Password Form -->
-            <div class="auth-form reset-password-form" id="reset-password-form" style="display: none;">
-                <input type="email" id="reset-email" placeholder="Email" required>
-                <button id="reset-password-btn">Reset Password</button>
-                <div class="error-message" id="reset-error"></div>
-                <div class="success-message" id="reset-success"></div>
-                <a href="#" class="back-to-login">Back to login</a>
             </div>
 
             <div class="auth-footer">
@@ -822,7 +842,9 @@
 
             <div class="auth-providers">
                 <div class="auth-provider" id="google-auth">
-                    <i class="fab fa-google"></i> Sign in with Google
+                  <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" style="width: 20px; height: 20px; margin-right: 10px;">
+                  Sign in with Google
+                  
                 </div>
             </div>
 
@@ -834,7 +856,6 @@
     <nav class="top-nav">
         <div class="logo">EduCalc</div>
         <div class="nav-links">
-            <a href="#" class="nav-home">Home</a>
             <a href="#" class="nav-calculator">Calculator</a>
             <a href="#" class="nav-preparation">Preparation</a>
             <a href="#" class="nav-practice-test">Practice Test</a>
@@ -851,6 +872,9 @@
             <button class="logout-btn" id="logout-btn">Logout</button>
         </div>
     </nav>
+
+    <!-- Main Navigation (Sidebar) -->
+    
 
     <!-- Main Content -->
     <main class="main-content">
@@ -875,7 +899,7 @@
 
             <div class="input-group">
                 <label for="test-score">Test Score:</label>
-                <input type="number" id="test-score" placeholder="Enter your test score">
+                <input type="number" id="test-score"  placeholder="Enter your test score">
             </div>
 
             <div class="input-group">
@@ -967,7 +991,7 @@
             <h2>Practice Tests</h2>
             <p>Test your knowledge with our comprehensive practice tests</p>
             
-            <div class="test-card" onclick="window.open('https://abd4521.github.io/ECAT/', '_blank')">
+            <div class="test-card" onclick="window.open(' https://abd4521.github.io/ECAT/', '_blank')">
                 <h3>ECAT Practice Test</h3>
                 <p>Click to start your engineering college admission test practice</p>
             </div>
@@ -1016,7 +1040,7 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
+       
         <section class="section-container" id="contact">
             <h2>Contact Us</h2>
             <p>Have questions or feedback? Send us a message!</p>
@@ -1047,136 +1071,78 @@
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
         </section>
+        <footer>
+          <div class="footer-container">
+              <div class="footer-column">
+                  <h3>About EduCalc</h3>
+                  <p>EduCalc helps students calculate their academic aggregates and provides preparation resources for ECAT, NET, and NTS exams.</p>
+                  <div class="social-links">
+                      <a href="https://instagram.com/imabd73" target="_blank" aria-label="Instagram">
+                          <i class="fab fa-instagram"></i>
+                      </a>
+                      <a href="#" aria-label="Facebook">
+                          <i class="fab fa-facebook"></i>
+                      </a>
+                      <a href="#" aria-label="Twitter">
+                          <i class="fab fa-twitter"></i>
+                      </a>
+                  </div>
+              </div>
+              
+              <div class="footer-column">
+                  <h3>Quick Links</h3>
+                  <ul>
+                      <li><a href="#" class="nav-home">Home</a></li>
+                      <li><a href="#" class="nav-calculator">Calculator</a></li>
+                      <li><a href="#" class="nav-preparation">Preparation</a></li>
+                      <li><a href="#" class="nav-practice-test">Practice Tests</a></li>
+                  </ul>
+              </div>
+              
+              <div class="footer-column">
+                  <h3>Contact Info</h3>
+                  <ul>
+                      <li><i class="fas fa-envelope"></i>aiuser527@gmail.com</li>
+                      <li><i class="fas fa-phone"></i> +92 3350806140</li>
+                      <li><i class="fas fa-map-marker-alt"></i> Khanewal, Pakistan</li>
+                  </ul>
+              </div>
+          </div>
+          
+          <div class="footer-bottom">
+              <p>&copy; 2025 EduCalc. All Rights Reserved.</p>
+          </div>
+      </footer>
     </main>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>About EduCalc</h3>
-                <p>EduCalc helps students calculate their academic aggregates and provides preparation resources for ECAT, NET, and NTS exams.</p>
-                <div class="social-links">
-                    <a href="https://instagram.com/imabd73" target="_blank" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" aria-label="Facebook">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="#" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#" class="nav-home">Home</a></li>
-                    <li><a href="#" class="nav-calculator">Calculator</a></li>
-                    <li><a href="#" class="nav-preparation">Preparation</a></li>
-                    <li><a href="#" class="nav-practice-test">Practice Tests</a></li>
-                    <li><a href="#" class="nav-games">Games</a></li>
-                    <li><a href="#" class="nav-contact">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li><i class="fas fa-envelope"></i> aiuser527@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> +92 3350806140</li>
-                    <li><i class="fas fa-map-marker-alt"></i> Khanewal, Pakistan</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 EduCalc. All Rights Reserved. 
-                <a href="#" id="privacy-policy-link" class="privacy-link">Privacy Policy</a>
-            </p>
-        </div>
-    </footer>
-
-    <!-- Privacy Policy Modal -->
-    <div class="auth-modal" id="privacy-modal" style="display: none;">
-        <div class="auth-container">
-            <h2>Privacy Policy</h2>
-            <div style="max-height: 400px; overflow-y: auto; margin-bottom: 20px;">
-                <h3>1. Information We Collect</h3>
-                <p>We collect information you provide directly to us, such as when you create an account, use our services, or contact us. This may include:</p>
-                <ul>
-                    <li>Personal information (name, email, phone number)</li>
-                    <li>Academic information (test scores, marks)</li>
-                    <li>Usage data and preferences</li>
-                </ul>
-
-                <h3>2. How We Use Your Information</h3>
-                <p>We use the information we collect to:</p>
-                <ul>
-                    <li>Provide, maintain, and improve our services</li>
-                    <li>Personalize your experience</li>
-                    <li>Communicate with you about updates and offers</li>
-                    <li>Analyze usage patterns to enhance our platform</li>
-                </ul>
-
-                <h3>3. Data Security</h3>
-                <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or disclosure.</p>
-
-                <h3>4. Third-Party Services</h3>
-                <p>We may use third-party services (like Firebase and Web3Forms) that collect information to provide their services. These services have their own privacy policies.</p>
-
-                <h3>5. Cookies</h3>
-                <p>We use cookies to enhance your experience and analyze site usage. You can disable cookies in your browser settings.</p>
-
-                <h3>6. Changes to This Policy</h3>
-                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
-
-                <h3>7. Contact Us</h3>
-                <p>If you have any questions about this Privacy Policy, please contact us at aiuser527@gmail.com</p>
-            </div>
-            <button class="cta-button" id="close-privacy-modal">Close</button>
-        </div>
-    </div>
-
     <script>
-        // Firebase configuration
+        // Firebase configuration - Replace with your actual config
         const firebaseConfig = {
-            apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
-            authDomain: "abdullah-bb8ab.firebaseapp.com",
-            projectId: "abdullah-bb8ab",
-            storageBucket: "abdullah-bb8ab.appspot.com",
-            messagingSenderId: "286504008164",
-            appId: "1:286504008164:web:8642bc9d56f36393052ff1"
-        };
+  apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+  authDomain: "abdullah-bb8ab.firebaseapp.com",
+  projectId: "abdullah-bb8ab",
+  storageBucket: "abdullah-bb8ab.appspot.com",
+  messagingSenderId: "286504008164",
+  appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+};
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        
-        // Initialize reCAPTCHA for phone auth
-        let recaptchaVerifier;
-        let confirmationResult;
 
         // DOM elements
         const authModal = document.getElementById('auth-modal');
         const loginTab = document.getElementById('login-tab');
         const signupTab = document.getElementById('signup-tab');
-        const phoneTab = document.getElementById('phone-tab');
         const loginForm = document.getElementById('login-form');
         const signupForm = document.getElementById('signup-form');
-        const phoneAuthForm = document.getElementById('phone-auth-form');
-        const resetPasswordForm = document.getElementById('reset-password-form');
         const toggleAuth = document.getElementById('toggle-auth');
         const loginBtn = document.getElementById('login-btn');
         const signupBtn = document.getElementById('signup-btn');
-        const sendOtpBtn = document.getElementById('send-otp-btn');
-        const verifyOtpBtn = document.getElementById('verify-otp-btn');
-        const resetPasswordBtn = document.getElementById('reset-password-btn');
         const googleAuth = document.getElementById('google-auth');
         const guestBtn = document.getElementById('guest-btn');
         const loginLink = document.getElementById('login-link');
         const signupLink = document.getElementById('signup-link');
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
-        const backToLogin = document.querySelector('.back-to-login');
         const authLinks = document.getElementById('auth-links');
         const userInfo = document.getElementById('user-info');
         const userAvatar = document.getElementById('user-avatar');
@@ -1184,14 +1150,7 @@
         const logoutBtn = document.getElementById('logout-btn');
         const loginError = document.getElementById('login-error');
         const signupError = document.getElementById('signup-error');
-        const phoneError = document.getElementById('phone-error');
-        const phoneSuccess = document.getElementById('phone-success');
-        const resetError = document.getElementById('reset-error');
-        const resetSuccess = document.getElementById('reset-success');
         const mainContent = document.querySelector('.main-content');
-        const privacyModal = document.getElementById('privacy-modal');
-        const privacyPolicyLink = document.getElementById('privacy-policy-link');
-        const closePrivacyModal = document.getElementById('close-privacy-modal');
 
         // Show auth modal
         function showAuthModal() {
@@ -1208,11 +1167,8 @@
         function showLoginForm() {
             loginTab.classList.add('active');
             signupTab.classList.remove('active');
-            phoneTab.classList.remove('active');
             loginForm.style.display = 'flex';
             signupForm.style.display = 'none';
-            phoneAuthForm.style.display = 'none';
-            resetPasswordForm.style.display = 'none';
             toggleAuth.innerHTML = 'Don\'t have an account? <a>Sign Up</a>';
         }
 
@@ -1220,47 +1176,9 @@
         function showSignupForm() {
             loginTab.classList.remove('active');
             signupTab.classList.add('active');
-            phoneTab.classList.remove('active');
             loginForm.style.display = 'none';
             signupForm.style.display = 'flex';
-            phoneAuthForm.style.display = 'none';
-            resetPasswordForm.style.display = 'none';
             toggleAuth.innerHTML = 'Already have an account? <a>Login</a>';
-        }
-
-        // Show phone auth form
-        function showPhoneAuthForm() {
-            loginTab.classList.remove('active');
-            signupTab.classList.remove('active');
-            phoneTab.classList.add('active');
-            loginForm.style.display = 'none';
-            signupForm.style.display = 'none';
-            phoneAuthForm.style.display = 'flex';
-            resetPasswordForm.style.display = 'none';
-            toggleAuth.innerHTML = 'Prefer email? <a>Login</a>';
-
-            // Initialize reCAPTCHA if not already done
-            if (!recaptchaVerifier) {
-                recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'normal',
-                    'callback': (response) => {
-                        // reCAPTCHA solved, allow send OTP
-                    },
-                    'expired-callback': () => {
-                        // reCAPTCHA expired, reset
-                    }
-                });
-                recaptchaVerifier.render();
-            }
-        }
-
-        // Show reset password form
-        function showResetPasswordForm() {
-            loginForm.style.display = 'none';
-            signupForm.style.display = 'none';
-            phoneAuthForm.style.display = 'none';
-            resetPasswordForm.style.display = 'flex';
-            toggleAuth.style.display = 'none';
         }
 
         // Toggle between login and signup
@@ -1277,29 +1195,11 @@
         // Tab switching
         loginTab.addEventListener('click', showLoginForm);
         signupTab.addEventListener('click', showSignupForm);
-        phoneTab.addEventListener('click', showPhoneAuthForm);
-
-        // Forgot password link
-        forgotPasswordLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showResetPasswordForm();
-        });
-
-        // Back to login from reset password
-        backToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLoginForm();
-            toggleAuth.style.display = 'block';
-        });
 
         // Login with email/password
         loginBtn.addEventListener('click', () => {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
-            
-            loginError.textContent = '';
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = 'Logging in... <span class="spinner"></span>';
             
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
@@ -1308,11 +1208,6 @@
                 })
                 .catch((error) => {
                     loginError.textContent = error.message;
-                })
-                .finally(() => {
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = 'Login';
-                    document.querySelector('#login-btn .spinner').style.display = 'none';
                 });
         });
 
@@ -1321,10 +1216,6 @@
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
-            
-            signupError.textContent = '';
-            signupBtn.disabled = true;
-            signupBtn.innerHTML = 'Signing up... <span class="spinner"></span>';
             
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
@@ -1339,91 +1230,12 @@
                 })
                 .catch((error) => {
                     signupError.textContent = error.message;
-                })
-                .finally(() => {
-                    signupBtn.disabled = false;
-                    signupBtn.innerHTML = 'Sign Up';
-                    document.querySelector('#signup-btn .spinner').style.display = 'none';
-                });
-        });
-
-        // Send OTP for phone authentication
-        sendOtpBtn.addEventListener('click', () => {
-            const phoneNumber = document.getElementById('phone-number').value;
-            
-            phoneError.textContent = '';
-            sendOtpBtn.disabled = true;
-            sendOtpBtn.innerHTML = 'Sending... <span class="spinner"></span>';
-            
-            auth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
-                .then((confirmation) => {
-                    confirmationResult = confirmation;
-                    phoneSuccess.textContent = 'OTP sent successfully!';
-                    document.getElementById('verification-code').style.display = 'block';
-                    verifyOtpBtn.style.display = 'block';
-                    sendOtpBtn.style.display = 'none';
-                })
-                .catch((error) => {
-                    phoneError.textContent = error.message;
-                })
-                .finally(() => {
-                    sendOtpBtn.disabled = false;
-                    sendOtpBtn.innerHTML = 'Send OTP';
-                    document.querySelector('#send-otp-btn .spinner').style.display = 'none';
-                });
-        });
-
-        // Verify OTP for phone authentication
-        verifyOtpBtn.addEventListener('click', () => {
-            const verificationCode = document.getElementById('verification-code').value;
-            
-            phoneError.textContent = '';
-            verifyOtpBtn.disabled = true;
-            verifyOtpBtn.innerHTML = 'Verifying... <span class="spinner"></span>';
-            
-            confirmationResult.confirm(verificationCode)
-                .then((result) => {
-                    hideAuthModal();
-                    updateUI(result.user);
-                })
-                .catch((error) => {
-                    phoneError.textContent = error.message;
-                })
-                .finally(() => {
-                    verifyOtpBtn.disabled = false;
-                    verifyOtpBtn.innerHTML = 'Verify OTP';
-                    document.querySelector('#verify-otp-btn .spinner').style.display = 'none';
-                });
-        });
-
-        // Reset password
-        resetPasswordBtn.addEventListener('click', () => {
-            const email = document.getElementById('reset-email').value;
-            
-            resetError.textContent = '';
-            resetPasswordBtn.disabled = true;
-            resetPasswordBtn.innerHTML = 'Sending... <span class="spinner"></span>';
-            
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    resetSuccess.textContent = 'Password reset email sent! Please check your inbox.';
-                })
-                .catch((error) => {
-                    resetError.textContent = error.message;
-                })
-                .finally(() => {
-                    resetPasswordBtn.disabled = false;
-                    resetPasswordBtn.innerHTML = 'Reset Password';
-                    document.querySelector('#reset-password-btn .spinner').style.display = 'none';
                 });
         });
 
         // Sign in with Google
         googleAuth.addEventListener('click', () => {
             const provider = new firebase.auth.GoogleAuthProvider();
-            
-            googleAuth.disabled = true;
-            googleAuth.innerHTML = 'Signing in... <span class="spinner"></span>';
             
             auth.signInWithPopup(provider)
                 .then((result) => {
@@ -1432,11 +1244,6 @@
                 })
                 .catch((error) => {
                     loginError.textContent = error.message;
-                })
-                .finally(() => {
-                    googleAuth.disabled = false;
-                    googleAuth.innerHTML = '<i class="fab fa-google"></i> Sign in with Google';
-                    document.querySelector('#google-auth .spinner').style.display = 'none';
                 });
         });
 
@@ -1466,17 +1273,6 @@
             e.preventDefault();
             showAuthModal();
             showSignupForm();
-        });
-
-        // Show privacy policy
-        privacyPolicyLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            privacyModal.style.display = 'flex';
-        });
-
-        // Close privacy policy
-        closePrivacyModal.addEventListener('click', () => {
-            privacyModal.style.display = 'none';
         });
 
         // Update UI based on auth state
@@ -1597,7 +1393,7 @@
 
             // Update active navigation
             function updateActiveNav(links) {
-                document.querySelectorAll('.top-nav a').forEach(link => {
+                document.querySelectorAll('.main-nav a, .top-nav a').forEach(link => {
                     link.classList.remove('active-nav');
                 });
                 
