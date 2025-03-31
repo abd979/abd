@@ -451,6 +451,45 @@
             font-size: 20px;
         }
 
+        /* Memory Match Game */
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            perspective: 1000px;
+        }
+
+        .memory-card.flipped {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background-color: #2ecc71;
+            cursor: default;
+        }
+
+        .memory-stats {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
         /* Contact Section */
         .contact-form {
             display: grid;
@@ -642,6 +681,35 @@
             font-size: 14px;
         }
 
+        /* Reset Password Modal */
+        .reset-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reset-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .reset-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .main-nav {
@@ -749,6 +817,15 @@
                 height: 80px;
                 font-size: 40px;
             }
+
+            .memory-game {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .memory-card {
+                height: 80px;
+                font-size: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -798,6 +875,15 @@
                 height: 80px;
                 font-size: 36px;
             }
+
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .memory-card {
+                height: 70px;
+                font-size: 18px;
+            }
         }
         .test-selector {
             margin-bottom: 20px;
@@ -810,6 +896,124 @@
             border-radius: 5px;
             font-size: 16px;
         }
+        .reset-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reset-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reset-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .reset-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .reset-form input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .reset-form button {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reset-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .reset-success {
+            text-align: center;
+            color: #2ecc71;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Verification Message Styles */
+        .verification-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verification-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .verification-container h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .verification-container p {
+            margin-bottom: 20px;
+            color: #7f8c8d;
+        }
+
+        .verification-container button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .verification-container button:hover {
+            background-color: #2980b9;
+        }
+
     </style>
 </head>
 <body>
@@ -826,6 +1030,9 @@
                 <input type="password" id="login-password" placeholder="Password" required>
                 <button id="login-btn">Login</button>
                 <div class="error-message" id="login-error"></div>
+                <div class="auth-footer">
+                    <a id="forgot-password-link">Forgot Password?</a>
+                </div>
             </div>
 
             <div class="auth-form" id="signup-form" style="display: none;">
@@ -844,11 +1051,33 @@
                 <div class="auth-provider" id="google-auth">
                   <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" style="width: 20px; height: 20px; margin-right: 10px;">
                   Sign in with Google
-                  
                 </div>
             </div>
 
             <button class="guest-btn" id="guest-btn">Continue as Guest</button>
+        </div>
+    </div>
+    <div class="verification-message" id="verification-message">
+        <div class="verification-container">
+            <h2>Verify Your Email</h2>
+            <p>A verification email has been sent to your email address. Please check your inbox and click the verification link to complete your registration.</p>
+            <p>Didn't receive the email? <a href="#" id="resend-verification">Resend Verification Email</a></p>
+            <button id="verification-close">Close</button>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="reset-modal" id="reset-modal">
+        <div class="reset-container">
+            <h2>Reset Password</h2>
+            <div class="reset-form">
+                <input type="email" id="reset-email" placeholder="Enter your email" required>
+                <button id="reset-btn">Send Reset Link</button>
+                <div class="error-message" id="reset-error"></div>
+                <div class="auth-footer">
+                    <a id="back-to-login">Back to Login</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1005,11 +1234,16 @@
             <div class="game-selection">
                 <div class="game-option" onclick="showGame('tic-tac-toe')">Tic Tac Toe</div>
                 <div class="game-option" onclick="showGame('rock-paper-scissors')">Rock Paper Scissors</div>
+                <div class="game-option" onclick="showGame('memory-match')">Memory Match</div>
             </div>
             
             <!-- Tic Tac Toe Game -->
             <div class="game-container" id="tic-tac-toe-game">
                 <h3>Tic Tac Toe</h3>
+                <div class="game-mode-selector">
+                    <button class="game-mode-btn active" onclick="setGameMode('player')">Player vs Player</button>
+                    <button class="game-mode-btn" onclick="setGameMode('computer')">Player vs Computer</button>
+                </div>
                 <div class="game-status" id="tic-tac-toe-status">Player X's turn</div>
                 <div class="tic-tac-toe" id="tic-tac-toe-board">
                     <div class="cell" data-index="0"></div>
@@ -1025,6 +1259,7 @@
                 <button class="reset-btn cta-button" onclick="resetTicTacToe()">Reset Game</button>
             </div>
         
+            <!-- Rock Paper Scissors Game -->
             <div class="game-container" id="rock-paper-scissors-game">
                 <h3>Rock Paper Scissors</h3>
                 <div class="rps-result" id="rps-result">Choose your weapon!</div>
@@ -1038,9 +1273,21 @@
                 </div>
                 <button class="reset-btn cta-button" onclick="resetRPS()">Reset Scores</button>
             </div>
+            
+            <!-- Memory Match Game -->
+            <div class="game-container" id="memory-match-game">
+                <h3>Memory Match</h3>
+                <div class="memory-stats">
+                    <p>Moves: <span id="move-count">0</span> | Pairs Found: <span id="pairs-found">0</span>/8</p>
+                </div>
+                <div class="memory-game" id="memory-board">
+                    <!-- Cards will be generated by JavaScript -->
+                </div>
+                <button class="reset-btn cta-button" onclick="resetMemoryGame()">New Game</button>
+            </div>
         </section>
 
-       
+        <!-- Contact Section -->
         <section class="section-container" id="contact">
             <h2>Contact Us</h2>
             <p>Have questions or feedback? Send us a message!</p>
@@ -1118,13 +1365,13 @@
     <script>
         // Firebase configuration - Replace with your actual config
         const firebaseConfig = {
-  apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
-  authDomain: "abdullah-bb8ab.firebaseapp.com",
-  projectId: "abdullah-bb8ab",
-  storageBucket: "abdullah-bb8ab.appspot.com",
-  messagingSenderId: "286504008164",
-  appId: "1:286504008164:web:8642bc9d56f36393052ff1"
-};
+            apiKey: "AIzaSyDjbEkfu8fJmPTDQ8xksGehPday9lrcSrg",
+            authDomain: "abdullah-bb8ab.firebaseapp.com",
+            projectId: "abdullah-bb8ab",
+            storageBucket: "abdullah-bb8ab.appspot.com",
+            messagingSenderId: "286504008164",
+            appId: "1:286504008164:web:8642bc9d56f36393052ff1"
+        };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
@@ -1132,6 +1379,7 @@
 
         // DOM elements
         const authModal = document.getElementById('auth-modal');
+        const resetModal = document.getElementById('reset-modal');
         const loginTab = document.getElementById('login-tab');
         const signupTab = document.getElementById('signup-tab');
         const loginForm = document.getElementById('login-form');
@@ -1150,6 +1398,10 @@
         const logoutBtn = document.getElementById('logout-btn');
         const loginError = document.getElementById('login-error');
         const signupError = document.getElementById('signup-error');
+        const resetError = document.getElementById('reset-error');
+        const resetBtn = document.getElementById('reset-btn');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const backToLogin = document.getElementById('back-to-login');
         const mainContent = document.querySelector('.main-content');
 
         // Show auth modal
@@ -1161,6 +1413,17 @@
         // Hide auth modal
         function hideAuthModal() {
             authModal.style.display = 'none';
+        }
+
+        // Show reset password modal
+        function showResetModal() {
+            authModal.style.display = 'none';
+            resetModal.style.display = 'flex';
+        }
+
+        // Hide reset password modal
+        function hideResetModal() {
+            resetModal.style.display = 'none';
         }
 
         // Show login form
@@ -1225,12 +1488,114 @@
                     });
                 })
                 .then(() => {
+                    // Send verification email
+                    return auth.currentUser.sendEmailVerification();
+                })
+                .then(() => {
+                    // Show verification message
+                    document.getElementById('verification-message').style.display = 'flex';
                     hideAuthModal();
-                    updateUI(auth.currentUser);
                 })
                 .catch((error) => {
                     signupError.textContent = error.message;
                 });
+        });
+
+        // Resend verification email
+        document.getElementById('resend-verification').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.currentUser.sendEmailVerification()
+                .then(() => {
+                    alert('Verification email resent!');
+                })
+                .catch((error) => {
+                    alert('Error resending verification: ' + error.message);
+                });
+        });
+
+        // Close verification message
+        document.getElementById('verification-close').addEventListener('click', () => {
+            document.getElementById('verification-message').style.display = 'none';
+            updateUI(auth.currentUser);
+        });
+
+        // Reset password
+        resetBtn.addEventListener('click', () => {
+            const email = document.getElementById('reset-email').value;
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    resetError.textContent = 'Password reset email sent! Check your inbox.';
+                    resetError.style.color = '#2ecc71';
+                    
+                    // Show success message and hide after delay
+                    setTimeout(() => {
+                        hideResetModal();
+                        showAuthModal();
+                        resetError.textContent = '';
+                        document.getElementById('reset-email').value = '';
+                    }, 3000);
+                })
+                .catch((error) => {
+                    resetError.textContent = error.message;
+                    resetError.style.color = '#e74c3c';
+                });
+        });
+
+        // [Rest of your existing JavaScript remains the same]
+
+        // Update UI based on auth state
+        function updateUI(user) {
+            if (user) {
+                // User is signed in
+                authLinks.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Set user info
+                userName.textContent = user.displayName || user.email;
+                
+                if (user.photoURL) {
+                    userAvatar.src = user.photoURL;
+                } else {
+                    // Default avatar if no photo
+                    userAvatar.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                }
+                
+                // Show main content
+                mainContent.style.display = 'block';
+                
+                // Check if email is verified
+                if (!user.emailVerified && user.providerData[0].providerId === 'password') {
+                    document.getElementById('verification-message').style.display = 'flex';
+                }
+            } else {
+                // User is signed out
+                authLinks.style.display = 'flex';
+                userInfo.style.display = 'none';
+                
+                // Check if in guest mode
+                if (localStorage.getItem('guestMode') !== 'true') {
+                    // Show auth modal if not in guest mode
+                    showAuthModal();
+                    // Hide main content until authenticated
+                    mainContent.style.display = 'none';
+                } else {
+                    // Show main content for guest
+                    mainContent.style.display = 'block';
+                }
+            }
+        }
+        // Forgot password link
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showResetModal();
+        });
+
+        // Back to login link
+        backToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideResetModal();
+            showAuthModal();
         });
 
         // Sign in with Google
@@ -1340,6 +1705,7 @@
             // Initialize games
             initTicTacToe();
             initRockPaperScissors();
+            initMemoryGame();
             
             // Show calculator section
             function showCalculator() {
@@ -1498,11 +1864,21 @@
         let currentPlayer = 'X';
         let gameState = ['', '', '', '', '', '', '', '', ''];
         let gameActive = true;
+        let gameMode = 'player'; // 'player' or 'computer'
 
         function initTicTacToe() {
             document.querySelectorAll('.cell').forEach(cell => {
                 cell.addEventListener('click', handleCellClick);
             });
+        }
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            document.querySelectorAll('.game-mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            resetTicTacToe();
         }
 
         function handleCellClick(e) {
@@ -1528,6 +1904,84 @@
             
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
             document.getElementById('tic-tac-toe-status').textContent = `Player ${currentPlayer}'s turn`;
+            
+            // Computer's turn if in computer mode
+            if (gameMode === 'computer' && currentPlayer === 'O' && gameActive) {
+                setTimeout(computerMove, 500);
+            }
+        }
+
+        function computerMove() {
+            if (!gameActive) return;
+            
+            // Simple AI - first try to win, then block, then random move
+            let move = findWinningMove('O') || findWinningMove('X') || findRandomMove();
+            
+            if (move !== null) {
+                gameState[move] = 'O';
+                document.querySelector(`.cell[data-index="${move}"]`).textContent = 'O';
+                
+                if (checkWin()) {
+                    document.getElementById('tic-tac-toe-status').textContent = 'Computer wins!';
+                    gameActive = false;
+                    return;
+                }
+                
+                if (checkDraw()) {
+                    document.getElementById('tic-tac-toe-status').textContent = 'Game ended in a draw!';
+                    gameActive = false;
+                    return;
+                }
+                
+                currentPlayer = 'X';
+                document.getElementById('tic-tac-toe-status').textContent = 'Player X\'s turn';
+            }
+        }
+
+        function findWinningMove(player) {
+            // Check rows
+            for (let i = 0; i < 9; i += 3) {
+                let row = [gameState[i], gameState[i+1], gameState[i+2]];
+                if (row.filter(cell => cell === player).length === 2 && row.includes('')) {
+                    return i + row.indexOf('');
+                }
+            }
+            
+            // Check columns
+            for (let i = 0; i < 3; i++) {
+                let col = [gameState[i], gameState[i+3], gameState[i+6]];
+                if (col.filter(cell => cell === player).length === 2 && col.includes('')) {
+                    return i + (col.indexOf('') * 3);
+                }
+            }
+            
+            // Check diagonals
+            let diag1 = [gameState[0], gameState[4], gameState[8]];
+            if (diag1.filter(cell => cell === player).length === 2 && diag1.includes('')) {
+                return diag1.indexOf('') * 4;
+            }
+            
+            let diag2 = [gameState[2], gameState[4], gameState[6]];
+            if (diag2.filter(cell => cell === player).length === 2 && diag2.includes('')) {
+                return 2 + (diag2.indexOf('') * 2);
+            }
+            
+            return null;
+        }
+
+        function findRandomMove() {
+            let availableMoves = [];
+            for (let i = 0; i < 9; i++) {
+                if (gameState[i] === '') {
+                    availableMoves.push(i);
+                }
+            }
+            
+            if (availableMoves.length > 0) {
+                return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            }
+            
+            return null;
         }
 
         function checkWin() {
@@ -1558,6 +2012,11 @@
             });
             
             document.getElementById('tic-tac-toe-status').textContent = 'Player X\'s turn';
+            
+            // If computer starts first
+            if (gameMode === 'computer' && currentPlayer === 'O') {
+                setTimeout(computerMove, 500);
+            }
         }
 
         // Rock Paper Scissors Game
@@ -1601,6 +2060,131 @@
             document.getElementById('player-score').textContent = '0';
             document.getElementById('computer-score').textContent = '0';
             document.getElementById('rps-result').textContent = 'Choose your weapon!';
+        }
+
+        // Memory Match Game
+        let memoryCards = [];
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let moveCount = 0;
+        let pairsFound = 0;
+        const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+
+        function initMemoryGame() {
+            memoryCards = [...emojis, ...emojis];
+            shuffleCards();
+            createBoard();
+        }
+
+        function shuffleCards() {
+            for (let i = memoryCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [memoryCards[i], memoryCards[j]] = [memoryCards[j], memoryCards[i]];
+            }
+        }
+
+        function createBoard() {
+            const board = document.getElementById('memory-board');
+            board.innerHTML = '';
+            
+            memoryCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+                card.addEventListener('click', flipCard);
+                board.appendChild(card);
+            });
+            
+            moveCount = 0;
+            pairsFound = 0;
+            updateStats();
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+            
+            this.classList.add('flipped');
+            this.textContent = this.dataset.emoji;
+            
+            if (!hasFlippedCard) {
+                // First click
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+            
+            // Second click
+            secondCard = this;
+            moveCount++;
+            updateStats();
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
+            
+            if (isMatch) {
+                disableCards();
+                pairsFound++;
+                updateStats();
+                
+                if (pairsFound === emojis.length) {
+                    setTimeout(() => {
+                        alert(`Congratulations! You won in ${moveCount} moves!`);
+                    }, 500);
+                }
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            firstCard.classList.add('matched');
+            secondCard.classList.add('matched');
+            
+            resetBoard();
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+            
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                firstCard.textContent = '';
+                secondCard.textContent = '';
+                
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        function updateStats() {
+            document.getElementById('move-count').textContent = moveCount;
+            document.getElementById('pairs-found').textContent = pairsFound;
+        }
+
+        function resetMemoryGame() {
+            const cards = document.querySelectorAll('.memory-card');
+            cards.forEach(card => {
+                card.classList.remove('flipped', 'matched');
+                card.textContent = '';
+                card.addEventListener('click', flipCard);
+            });
+            
+            setTimeout(() => {
+                shuffleCards();
+                createBoard();
+            }, 500);
         }
     </script>
 </body>
